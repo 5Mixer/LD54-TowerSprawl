@@ -4,7 +4,7 @@
 
 9:05am - Have settled on a tower building/management/defence game. Start with a room on the ground and a minion, buy rooms of strange shapes that snap onto other rooms. Minions generate money, try to steal rooms from neighboring buildings, etc. Minion classes, like in 'Lemmings'. 2D, with Kha.
 
-# Ideas: LIMITED SPACE
+# Theme: LIMITED SPACE
 
 - Packing
     - Cars, a room, industrial containers, inventory space
