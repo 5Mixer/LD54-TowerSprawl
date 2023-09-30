@@ -61,25 +61,28 @@ class Room {
                 case Tile.Rope: Color.fromBytes(193, 168, 146);
                 case Tile.Interior: Color.fromBytes(200, 200, 200, 100);
             }
-            g.fillRect((tile.x + x) * scale, (tile.y + y) * scale, scale, scale);
+            g.fillRect(x + tile.x * scale, y + tile.y * scale, scale, scale);
         }
         g.color = Color.White;
     }
 
     public function stampOnMap(map: TileMap, x: Int, y: Int) {
         for (tile in tiles) {
-            if (tile.tile != Tile.Air)
+            var existingTile = map.get(x + tile.x, y + tile.y);
+            if (tile.tile != Tile.Air && !(existingTile == Tile.Wall && tile.tile == Tile.Door))
                 map.set(x + tile.x, y + tile.y, tile.tile);
         }
     }
 
     public function canBePlacedAtMap(map: TileMap, x: Int, y: Int) {
-        // No non-air tiles should change as a result of the placement
+        // No non-air, non-door tiles should change as a result of the placement
         for (tile in tiles) {
-            if (tile.tile == Tile.Air) continue;
+            if (tile.tile == Tile.Air || tile.tile == Tile.Door) continue;
 
             var existingTile = map.get(x + tile.x, y + tile.y);
-            if (existingTile != Tile.Air && existingTile != tile.tile) {
+            if (existingTile == Tile.Air || existingTile == Tile.Door) continue;
+            
+            if (existingTile != tile.tile) {
                 return false;
             }
         }

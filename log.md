@@ -1,6 +1,8 @@
 # Currently: items (beds, etc)
 
 # Log
+*7:20pm* - Added a camera so that the pixel graphics are finally scaled up to look pixelated. That prompted me to scale the UI rooms, which became too big, so I made them have a separate mini-render mode for the UI. All this camera work required a bunch of transformation math frustration, and there goes the hour. It was necessary though. Onto item placement, again!
+
 *6pm* - Mmh, the items are tiny. I might need to make some bigger machines, perhaps 3x2 tiles. Easy to get distracted pieces the room types together, there are some very satisfying combinations. Given the fun of that, I don't want to make rooms too expensive, I'm thinking that you should be placing one every 30s or so. The idea of a huge building, with hundreds of minions and machines sounds entertaining. Still so much to do - minions aren't even moving yet!
  
 *5:40pm* - Hah, amusing problem - with an 8x8 character, the items are either quite large compared with the player, or they only occupy a single tile, which sort of defeats the challenge of 'limited space'. That's alright, they can have big beds.

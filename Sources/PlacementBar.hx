@@ -8,15 +8,17 @@ using VectorExtension;
 class PlacementBar {
     var position = new Vector2i();
     var rooms: Array<Room>;
+    var itemTypes: Array<ItemType>;
     var contentPadding = 2;
-    var interiorPadding = 1;
-    var windowHeight = 16 * Game.PREVIEW_TILE_SIZE + 2*2; // Max room height is 16 tiles, plus padding
+    var interiorPadding = 2;
+    var windowHeight = 16 * Game.PREVIEW_TILE_SIZE + 3*Game.PREVIEW_TILE_SIZE; // Max room height is 16 tiles, plus padding
     var pickedUpItem: Selectable;
     var pickUpOffset: Vector2i;
     var map: TileMap;
 
-    public function new(rooms: Array<Room>, map: TileMap) {
+    public function new(rooms: Array<Room>, itemTypes: Array<ItemType>, map: TileMap) {
         this.rooms = rooms;
+        this.itemTypes = itemTypes;
         this.map = map;
     }
 
@@ -76,19 +78,20 @@ class PlacementBar {
         var x = contentPadding;
         var y = contentPadding;
         for (room in rooms) {
-            var roomWidth = room.maxWidth;
-            var roomHeight = room.maxHeight;
-            var localX = x;
-            var localY = y;
-
+            var xCopy = x;
             contents.push(new Selectable(
-                new Vector2i(localX * Game.PREVIEW_TILE_SIZE, localY * Game.PREVIEW_TILE_SIZE),
-                new Vector2i(roomWidth * Game.PREVIEW_TILE_SIZE, roomHeight * Game.PREVIEW_TILE_SIZE),
+                new Vector2i(x, y),
+                new Vector2i(room.maxWidth * Game.PREVIEW_TILE_SIZE, room.maxHeight * Game.PREVIEW_TILE_SIZE),
                 () -> { },
-                (g) -> { room.renderSmall(g, localX, localY); },
+                function(g) { room.renderSmall(g, xCopy, y); },
                 room
             ));
-            x += roomWidth + interiorPadding;
+            x += room.maxWidth * Game.PREVIEW_TILE_SIZE + interiorPadding;
+        }
+        for (item in itemTypes) {
+            var xCopy = x;
+
+            x += item.spriteSheetSize.x;
         }
         return contents;
     }
