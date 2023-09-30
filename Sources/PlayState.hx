@@ -15,16 +15,15 @@ class PlayState extends State {
     public function new() {
         super();
         rooms = RoomLoader.loadRooms(Assets.blobs.rooms_txt);
-        placementBar = new PlacementBar(rooms, itemTypes, map);
 
         var originRoom = new PlacedRoom(rooms[1], new Pos(80, 50));
         originRoom.stamp(map);
         var placedRooms = [originRoom];
 
         itemTypes = [
-            new ItemType("Bed",          new Vector2i(0, 2), new Vector2i(2, 1)),
-            new ItemType("Occupied Bed", new Vector2i(0, 3), new Vector2i(2, 1)),
-            new ItemType("Lamp",         new Vector2i(2, 3), new Vector2i(1, 1))
+            new ItemType("Bed",          new Vector2i(0, 3), new Vector2i(2, 1)),
+            new ItemType("Occupied Bed", new Vector2i(0, 4), new Vector2i(2, 1)),
+            new ItemType("Lamp",         new Vector2i(2, 4), new Vector2i(1, 1))
         ];
 
         var iterations = 1000;
@@ -44,6 +43,8 @@ class PlayState extends State {
                 placedRooms.push(childRoom);
             }
         }
+        
+        placementBar = new PlacementBar(rooms, itemTypes, map);
     }
 
     override public function render(framebuffer: Framebuffer) {

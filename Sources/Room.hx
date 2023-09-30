@@ -54,14 +54,7 @@ class Room {
     public function renderSmall(g: Graphics, x, y) {
         var scale = 2;
         for (tile in tiles) {
-            g.color = switch(tile.tile) {
-                case Tile.Air: Color.Transparent;
-                case Tile.Wall: Color.fromBytes(93, 97, 96);
-                case Tile.Door: Color.fromBytes(193, 108, 106);
-                case Tile.Rope: Color.fromBytes(193, 168, 146);
-                case Tile.Interior: Color.fromBytes(200, 200, 200, 100);
-            }
-            g.fillRect(x + tile.x * scale, y + tile.y * scale, scale, scale);
+            g.drawMiniTile(tile.tile, tile.x * Game.PREVIEW_TILE_SIZE + x, tile.y * Game.PREVIEW_TILE_SIZE + y);
         }
         g.color = Color.White;
     }

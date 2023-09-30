@@ -1,5 +1,6 @@
 package ;
 
+import Selectable.SelectableContents;
 import kha.math.Vector2i;
 import kha.System;
 import kha.graphics2.Graphics;
@@ -33,16 +34,28 @@ class PlacementBar {
 
         if (pickedUpItem != null) {
             var mapPos = getPickedUpItemMapPos();
-            var validPlacement = pickedUpItem.room.canBePlacedAtMap(map, mapPos.x, mapPos.y);
-            g.color = validPlacement ? kha.Color.fromBytes(114, 224, 148, 200) : kha.Color.fromBytes(227, 91, 56, 200);
-            pickedUpItem.room.render(g, mapPos.x, mapPos.y);
-            g.color = kha.Color.White;
+
+            switch(pickedUpItem.contents) {
+                case Room(room): {
+                    var validPlacement = room.canBePlacedAtMap(map, mapPos.x, mapPos.y);
+                    g.color = validPlacement ? Game.VALID_TINT : Game.INVALID_TINT;
+                    room.render(g, mapPos.x, mapPos.y);
+                    g.color = kha.Color.White;
+                }
+                case Item(item): {
+                    var validPlacement = item.canBePlacedAtMap(map, mapPos.x, mapPos.y);
+                    g.color = validPlacement ? Game.VALID_TINT : Game.INVALID_TINT;
+                    item.render(g, mapPos.x, mapPos.y);
+                    g.color = kha.Color.White;
+                }
+            }
+            
         }
     }
 
     public function getPickedUpItemMapPos() {
         if (pickedUpItem != null) {
-            return new Vector2i(Std.int((MouseState.worldPos().x/Game.TILE_SIZE) - pickUpOffset.x/Game.PREVIEW_TILE_SIZE), Std.int((MouseState.worldPos().y/Game.TILE_SIZE) - pickUpOffset.y/Game.PREVIEW_TILE_SIZE));
+            return new Vector2i(Std.int((MouseState.worldPos().x/Game.TILE_SIZE) - pickUpOffset.x), Std.int((MouseState.worldPos().y/Game.TILE_SIZE) - pickUpOffset.y));
         }
         return null;
     }
@@ -59,8 +72,17 @@ class PlacementBar {
         if (!MouseState.isLeftButtonDown) {
             if (pickedUpItem != null) {
                 var mapPos = getPickedUpItemMapPos();
-                if (pickedUpItem.room.canBePlacedAtMap(map, mapPos.x, mapPos.y)) {
-                    pickedUpItem.room.stampOnMap(map, mapPos.x, mapPos.y);
+                switch (pickedUpItem.contents) {
+                    case Room(room): {
+                        if (room.canBePlacedAtMap(map, mapPos.x, mapPos.y)) {
+                            room.stampOnMap(map, mapPos.x, mapPos.y);
+                        }
+                    }
+                    case Item(item): {
+                        if (item.canBePlacedAtMap(map, mapPos.x, mapPos.y)) {
+                            // item.stampOnMap(map, mapPos.x, mapPos.y);
+                        }
+                    }
                 }
             }
             pickedUpItem = null;
@@ -69,6 +91,10 @@ class PlacementBar {
 
     function onPickUp(item: Selectable) {
         pickUpOffset = new Vector2i(MouseState.worldPos().x - item.pos.x, MouseState.worldPos().y - item.pos.y);
+        switch (item.contents) {
+            case Room(_): pickUpOffset = pickUpOffset.div(Game.PREVIEW_TILE_SIZE);
+            case Item(_): pickUpOffset = pickUpOffset.div(Game.TILE_SIZE);
+        }
         pickedUpItem = item;
         item.clickCallback();
     }
@@ -83,15 +109,26 @@ class PlacementBar {
                 new Vector2i(x, y),
                 new Vector2i(room.maxWidth * Game.PREVIEW_TILE_SIZE, room.maxHeight * Game.PREVIEW_TILE_SIZE),
                 () -> { },
-                function(g) { room.renderSmall(g, xCopy, y); },
-                room
+                (g) -> { room.renderSmall(g, xCopy, y); },
+                SelectableContents.Room(room)
             ));
             x += room.maxWidth * Game.PREVIEW_TILE_SIZE + interiorPadding;
         }
+
+        x += 10; // Arbitrary padding between rooms and items...
+
         for (item in itemTypes) {
             var xCopy = x;
 
-            x += item.spriteSheetSize.x;
+            contents.push(new Selectable(
+                new Vector2i(x, y),
+                new Vector2i(item.spriteSheetSize.x * Game.TILE_SIZE, item.spriteSheetSize.y * Game.TILE_SIZE),
+                () -> {},
+                (g) -> { item.render(g, Std.int(xCopy/Game.TILE_SIZE), Std.int(y/Game.TILE_SIZE)); },
+                SelectableContents.Item(item)
+            ));
+
+            x += item.spriteSheetSize.x * Game.TILE_SIZE;
         }
         return contents;
     }
