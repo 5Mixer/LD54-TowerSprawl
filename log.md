@@ -1,6 +1,28 @@
-# Currently: Minions (walking/pathfinding)
+# Currently: Minion state machine
 
 # Log
+# Sunday
+
+*8:10am* - I'm up, feeling good. Had a look at some wip games on ldjam, some neat ones. Feeling very good about this idea, just need to get as much of this massive scope in as possible. Will add the minion state machine now.
+
+## Saturday
+*10:30pm* - All the minions are chasing the cursor now, though they step in tile increments, and if they end up on the same tile they become indistinguishable. Todo list for tomorrow:
+
+- Minion state machine
+- Smooth walking minions
+- Day/night state
+- Constraints on items, they can still float
+- Machine that produces gadgets
+- Other items/minion mechanics (food etc)
+- Item removal (exploding lanterns!)
+- Lighting
+- Algae growing
+- Pretty background etc
+
+*10:10pm* - Pathfinding is in! Took much less time than I anticipated. Biggest gotcha was just equality of `Vector2i`'s; I'd assumed that the equality operator was overriden for value based comparison, but it seems not. Pretty straight forward pathfinding algo, just BFS out, keeping a map that stores the parent position of visited positions, and reversing/following that list back when we find the finish. I originally had in mind some optimisations - I think it'd be possible to pathfind across the high level connections of the rooms, and then find the routes between doors on each step (which could also be optimised to only include necessary points), but performance seems plenty fast at a glance.
+
+I think I'll try making the minions walk the returned path now.
+
 *9pm* - Or maybe not. I think I need to get onto minions, pathfinding with ropes might take awhile.
 
 *8:50pm* - Item placement on the map finally working. That took way longer than expected. Just going to improve position validation, so beds have to be on the floor etc.
