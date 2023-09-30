@@ -18,11 +18,20 @@ class TileMap {
         }
 
     }
+
     public function render(graphics: Graphics) {
         for (y in 0...height) {
             for (x in 0...width) {
-                graphics.drawTile(tiles[y*width+x], x, y);
+                graphics.drawTile(tiles[y * width + x], x, y);
             }
         }
+    }
+
+    public function set(x: Int, y: Int, tile: Tile) {
+        tiles[y * width + x] = tile;
+    }
+    
+    public function get(x: Int, y: Int) {
+        return tiles[y * width + x];
     }
 }

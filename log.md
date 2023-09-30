@@ -1,6 +1,9 @@
-# Currently: Making room loading
+# Currently: Making rooms connect to each other
 
 # Log
+12:20am - Even though the game probably doesn't need it, to test room placement/door alignment, I made it repeatedly try to place rooms that connect to existing rooms in the map, making it generate neat, though nonsensical levels. Not sure where to go from here. I could go the route of interactivity, so you can manually place rooms if they fit, or putting stuff in the rooms, like machines and the minions. Interactivity is probably less fun, but more important, so will try and get that done after lunch.
+
+12am - Rooms are loading well, and can be stamped on the map. I've setup some utilies for seeing if a room fits in a particular position, and getting the list of doors. My short term goal is to generate a random building out of room pieces, such that all the exits align. I've created a `PlacedRoom` class; I may later rename `Room` to `RoomTemplate`.
 
 10:30am - Have got a basic project with Kha running, and rendering from a tilemap. Currently working on a room loader, and have used ascii art to define a bunch of standard rooms, with different shapes, ropes, and exits.
 
