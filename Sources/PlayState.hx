@@ -32,10 +32,6 @@ class PlayState extends State {
                 placedRooms.push(childRoom);
             }
         }
-        // for (room in rooms) {
-        //     room.stampOnMap(map, 10, roomOffset);
-        //     roomOffset += room.maxHeight + 1;
-        // }
     }
 
     override public function render(framebuffer: Framebuffer) {
@@ -44,12 +40,10 @@ class PlayState extends State {
         graphics.clear(kha.Color.fromBytes(122, 172, 187));
         map.render(graphics);
 
-        // var roomIndex = 0;
-        // for (room in rooms) {
-        //     room.render(graphics, roomIndex * 28, 10);
-        //     roomIndex++;
-        // }
-
         graphics.end();
+    }
+
+    override public function update() {
+        map.set(Math.floor(MouseState.pos.x / 8), Math.floor(MouseState.pos.y / 8), Tile.Wall);
     }
 }

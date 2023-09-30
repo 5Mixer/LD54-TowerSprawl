@@ -19,7 +19,6 @@ class Room {
     var tiles: Array<PositionedTile> = [];
     public var maxWidth: Int;
     public var maxHeight: Int;
-    private var doorOffsets = [new Pos(0, 1), new Pos(1, 0), new Pos(0, -1), new Pos(-1, 0)];
 
     public function new(roomString: String) {
         var y = 0;
@@ -60,7 +59,10 @@ class Room {
 
     public function canBePlacedAtMap(map: TileMap, x: Int, y: Int) {
         for (tile in tiles) {
-            if (map.get(x + tile.x, y + tile.y) != Tile.Air) {
+            if (tile.tile == Tile.Air) continue;
+
+            var existingTile = map.get(x + tile.x, y + tile.y);
+            if (existingTile != Tile.Air && existingTile != tile.tile) {
                 return false;
             }
         }
@@ -76,10 +78,8 @@ class Room {
     public function attachmentsToDoor(map: TileMap, doorX: Int, doorY: Int) {
         var validAttachments = [];
         for (door in getDoors()) {
-            for (doorOffset in doorOffsets) {
-                if (canBePlacedAtMap(map, doorX - door.x - doorOffset.x, doorY - door.y - doorOffset.y)) {
-                    validAttachments.push(new Pos(doorX - door.x - doorOffset.x, doorY - door.y - doorOffset.y));
-                }
+            if (canBePlacedAtMap(map, doorX - door.x, doorY - door.y)) {
+                validAttachments.push(new Pos(doorX - door.x, doorY - door.y));
             }
         }
         return validAttachments;

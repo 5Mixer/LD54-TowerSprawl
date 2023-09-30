@@ -9,6 +9,7 @@ class Main {
 	var activeState: State;
 
 	public function new() {
+		MouseState.setup();
 		activeState = new PlayState();
 	}
 
