@@ -1,8 +1,10 @@
 package ;
 
+import kha.math.Vector2i;
 import kha.Assets;
 import kha.graphics2.Graphics;
 using GraphicsExtension;
+using Tile;
 
 class TileMap {
     var tiles = new Array<Tile>();
@@ -40,5 +42,45 @@ class TileMap {
 
     public function addItem(item: PlacedItem) {
         items.push(item);
+    }
+
+    public function pathfind(start: Vector2i, finish: Vector2i) {
+        var openForExploration = [start];
+        var reversePathways = new Map<Int, Vector2i>();
+        var path = [];
+        var attempts = 10000;
+        while (openForExploration.length > 0 && attempts-- > 0) {
+            var exploredPoint = openForExploration.shift();
+
+            if (exploredPoint.x == finish.x && exploredPoint.y == finish.y) {
+                path = [exploredPoint];
+                var parent = reversePathways.get(exploredPoint.y * width + exploredPoint.x);
+                while (parent != null && parent != start) {
+                    path.push(parent);
+                    parent = reversePathways.get(parent.y * width + parent.x);
+                }
+                break;
+            }
+
+            var neighbors = pathfindingNeighbors(exploredPoint);
+            for (neighbor in neighbors) {
+                if (reversePathways.exists(neighbor.y * width + neighbor.x)) {
+                    continue;
+                }
+                reversePathways.set(neighbor.y * width + neighbor.x, exploredPoint);
+                openForExploration.push(neighbor);
+            }
+        }
+        path.reverse();
+        return path;
+    }
+    function pathfindingNeighbors(position: Vector2i) {
+        var neighbors = [];
+        for (offset in [new Vector2i(-1, 0), new Vector2i(1, 0), new Vector2i(0, -1), new Vector2i(0, 1)]) {
+            if (!get(position.x + offset.x, position.y + offset.y).isSolid() && get(position.x + offset.x, position.y + offset.y + 1) != Tile.Interior) {
+                neighbors.push(new Vector2i(position.x + offset.x, position.y + offset.y));
+            }
+        }
+        return neighbors;
     }
 }

@@ -5,7 +5,7 @@ import kha.graphics2.Graphics;
 import kha.math.Vector2i;
 
 class Minion {
-    var pos: Vector2i;
+    public var pos: Vector2i;
 
     public function new(pos: Vector2i) {
         this.pos = pos;

@@ -6,6 +6,7 @@ import kha.math.FastMatrix4;
 import kha.math.Vector2i;
 import kha.Assets;
 import kha.Framebuffer;
+using GraphicsExtension;
 
 class PlayState extends State {
     var map: TileMap = new TileMap();
@@ -62,6 +63,10 @@ class PlayState extends State {
         }
         for (minion in minions) {
             minion.render(graphics);
+            var path = map.pathfind(minion.pos, new Vector2i(Std.int(MouseState.worldPos().x / Game.TILE_SIZE), Std.int(MouseState.worldPos().y / Game.TILE_SIZE)));
+            for (step in path) {
+                graphics.drawTile(Tile.Debug, step.x, step.y);
+            }
         }
         graphics.transformation = FastMatrix3.identity();
 
