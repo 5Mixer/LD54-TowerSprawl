@@ -1,7 +1,10 @@
-# Currently: Minion state machine
+# Currently: Smooth minion walking
 
 # Log
 # Sunday
+*10:25am* - Smooth walking minions in, awesome. Interesting bug where pathfinding would cut corners, as the map position, rounded off from the player position, would jump ahead of where the player appeared. Taking a break for some chores, then I think I'll work on some more entities/items for the minions to operate.
+
+*10:05am* - Bed constraint finally in, and a bug where minions would spawn despite invalid bed placement fixed. On to smooth movement.
 
 *9:40am* - I have a very basic state machine in minions, and added a day/night cycle that wakes them up/puts them to sleep. I'm quite eager to have dynamic lighting, such that exits exposed to the outside are meaningful, and lamps are necessary, but that might not be worth the time. The day/night cycle works by picking out a colour from a gradient in the spritesheet, meaning I could use gimp's gradient tools to setup a nice sunrise/sunset.
 
