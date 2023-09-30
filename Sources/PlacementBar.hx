@@ -78,15 +78,16 @@ class PlacementBar {
                     case Room(room): {
                         if (room.canBePlacedAtMap(map, mapPos.x, mapPos.y)) {
                             room.stampOnMap(map, mapPos.x, mapPos.y);
+                            onPlacementCallback(pickedUpItem.contents, mapPos);
                         }
                     }
                     case Item(item): {
                         if (item.canBePlacedAtMap(map, mapPos.x, mapPos.y)) {
                             map.addItem(new PlacedItem(item, mapPos));
+                            onPlacementCallback(pickedUpItem.contents, mapPos);
                         }
                     }
                 }
-                onPlacementCallback(pickedUpItem.contents, mapPos);
             }
             pickedUpItem = null;
         }

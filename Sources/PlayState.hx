@@ -27,23 +27,38 @@ class PlayState extends State {
         super();
         rooms = RoomLoader.loadRooms(Assets.blobs.rooms_txt);
 
-        var originRoom = new PlacedRoom(rooms[1], new Vector2i(80, 50));
-        originRoom.stamp(map);
-        var placedRooms = [originRoom];
-
-        skyImage = Image.createRenderTarget(256, 1);
-        skyImage.g2.begin();
-        skyImage.g2.drawSubImage(Assets.images.spritesheet, 0, 0, 0, 5 * Game.TILE_SIZE, 256, 1);
-        skyImage.g2.end();
+        skyImage = createSkyImage();
         #if kha_html5
         skyImageBytes = skyImage.getPixels();
         #end
-
+        
         itemTypes = [
-            new ItemType("Bed",          new Vector2i(0, 3), new Vector2i(2, 1)),
-            new ItemType("Occupied Bed", new Vector2i(0, 4), new Vector2i(2, 1)),
+            new ItemType("Bed",          new Vector2i(0, 3), new Vector2i(2, 1),
+                function isBedLocationSuitable(where) {
+                    return
+                        map.get(where.x, where.y+1) == Wall && map.get(where.x+1, where.y+1) == Wall && // Space below bed must be wall
+                        map.get(where.x, where.y-1) == Interior && map.get(where.x+1, where.y-1) == Interior; // Space above bed must be interior
+                }),
             new ItemType("Lamp",         new Vector2i(2, 4), new Vector2i(1, 1))
         ];
+
+        constructLevel();
+        
+        placementBar = new PlacementBar(rooms, itemTypes, map, onPlacement);
+    }
+
+    function createSkyImage() {
+        var skyImage = Image.createRenderTarget(256, 1);
+        skyImage.g2.begin();
+        skyImage.g2.drawSubImage(Assets.images.spritesheet, 0, 0, 0, 5 * Game.TILE_SIZE, 256, 1);
+        skyImage.g2.end();
+        return skyImage;
+    }
+
+    function constructLevel() {
+        var originRoom = new PlacedRoom(rooms[1], new Vector2i(80, 50));
+        originRoom.stamp(map);
+        var placedRooms = [originRoom];
 
         var iterations = 1000;
         while (iterations-- > 0) {
@@ -62,8 +77,6 @@ class PlayState extends State {
                 placedRooms.push(childRoom);
             }
         }
-        
-        placementBar = new PlacementBar(rooms, itemTypes, map, onPlacement);
     }
 
     override public function render(framebuffer: Framebuffer) {

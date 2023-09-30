@@ -3,6 +3,12 @@
 # Log
 # Sunday
 
+*9:40am* - I have a very basic state machine in minions, and added a day/night cycle that wakes them up/puts them to sleep. I'm quite eager to have dynamic lighting, such that exits exposed to the outside are meaningful, and lamps are necessary, but that might not be worth the time. The day/night cycle works by picking out a colour from a gradient in the spritesheet, meaning I could use gimp's gradient tools to setup a nice sunrise/sunset.
+
+Lost a bit of time trying to get the day/night cycle working on linux builds - I've had trouble with using `getPixel()` and `at()` on native targets in the past. Couldn't get it quite right, but I've put compile flags in so that it at least doesn't crash on linux.
+
+Next up, item constraints and smooth walking. Going to time box this to 10:30am; smooth walking at least is not super crucial.
+
 *8:10am* - I'm up, feeling good. Had a look at some wip games on ldjam, some neat ones. Feeling very good about this idea, just need to get as much of this massive scope in as possible. Will add the minion state machine now.
 
 ## Saturday

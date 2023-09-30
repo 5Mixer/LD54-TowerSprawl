@@ -5,6 +5,7 @@ import kha.Assets;
 import kha.graphics2.Graphics;
 using GraphicsExtension;
 using Tile;
+using VectorExtension;
 
 class TileMap {
     var tiles = new Array<Tile>();
@@ -74,6 +75,17 @@ class TileMap {
         path.reverse();
         return path;
     }
+
+    public function getItem(pos: Vector2i) {
+        for (item in items) {
+            if (pos.insideRectangle(item.pos, item.item.spriteSheetSize)) {
+                return item;
+            }
+        }
+
+        return null;
+    }
+
     function pathfindingNeighbors(position: Vector2i) {
         var neighbors = [];
         for (offset in [new Vector2i(-1, 0), new Vector2i(1, 0), new Vector2i(0, -1), new Vector2i(0, 1)]) {
