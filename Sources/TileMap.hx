@@ -22,7 +22,8 @@ class TileMap {
     public function render(graphics: Graphics) {
         for (y in 0...height) {
             for (x in 0...width) {
-                graphics.drawTile(tiles[y * width + x], x, y);
+                if (get(x, y) != Tile.Air)
+                    graphics.drawTile(get(x, y), x, y);
             }
         }
     }

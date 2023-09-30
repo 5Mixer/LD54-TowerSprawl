@@ -6,10 +6,12 @@ import kha.Framebuffer;
 class PlayState extends State {
     var map: TileMap = new TileMap();
     var rooms: Array<Room>;
+    var placementBar: PlacementBar;
 
     public function new() {
         super();
         rooms = RoomLoader.loadRooms(Assets.blobs.rooms_txt);
+        placementBar = new PlacementBar(rooms, map);
 
         var originRoom = new PlacedRoom(rooms[1], new Pos(80, 50));
         originRoom.stamp(map);
@@ -39,11 +41,12 @@ class PlayState extends State {
         graphics.begin();
         graphics.clear(kha.Color.fromBytes(122, 172, 187));
         map.render(graphics);
+        placementBar.render(graphics);
 
         graphics.end();
     }
 
     override public function update() {
-        map.set(Math.floor(MouseState.pos.x / 8), Math.floor(MouseState.pos.y / 8), Tile.Wall);
+        placementBar.update();
     }
 }

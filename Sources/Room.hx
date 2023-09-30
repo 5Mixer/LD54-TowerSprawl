@@ -53,11 +53,13 @@ class Room {
 
     public function stampOnMap(map: TileMap, x: Int, y: Int) {
         for (tile in tiles) {
-            map.set(x + tile.x, y + tile.y, tile.tile);
+            if (tile.tile != Tile.Air)
+                map.set(x + tile.x, y + tile.y, tile.tile);
         }
     }
 
     public function canBePlacedAtMap(map: TileMap, x: Int, y: Int) {
+        // No non-air tiles should change as a result of the placement
         for (tile in tiles) {
             if (tile.tile == Tile.Air) continue;
 
@@ -66,7 +68,15 @@ class Room {
                 return false;
             }
         }
-        return true;
+
+        // A door should overlap between the rooms
+        for (door in getDoors()) {
+            if (map.get(door.x + x, door.y + y) == Tile.Door) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     public function getDoors() {

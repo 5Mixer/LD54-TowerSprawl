@@ -14,6 +14,7 @@ class Main {
 	}
 
 	function update(): Void {
+		MouseState.update();
 		activeState.update();
 	}
 
