@@ -27,6 +27,7 @@ class ItemType {
     }
 
     public function canBePlacedAtMap(map: TileMap, x: Int, y: Int) {
+        // Base constraint: all sprite tiles should be free room interiors
         for (dy in 0...spriteSheetSize.y) {
             for (dx in 0...spriteSheetSize.x) {
                 if (map.get(x + dx, y + dy) != Tile.Interior) {
@@ -34,6 +35,7 @@ class ItemType {
                 }
             }
         }
+        
         return true;
     }
 }

@@ -16,11 +16,13 @@ class PlacementBar {
     var pickedUpItem: Selectable;
     var pickUpOffset: Vector2i;
     var map: TileMap;
+    var onPlacementCallback: (placed: SelectableContents, pos: Vector2i) -> Void;
 
-    public function new(rooms: Array<Room>, itemTypes: Array<ItemType>, map: TileMap) {
+    public function new(rooms: Array<Room>, itemTypes: Array<ItemType>, map: TileMap, onPlacementCallback: (placed: SelectableContents, pos: Vector2i) -> Void) {
         this.rooms = rooms;
         this.itemTypes = itemTypes;
         this.map = map;
+        this.onPlacementCallback = onPlacementCallback;
     }
 
     public function render(g: Graphics) {
@@ -84,6 +86,7 @@ class PlacementBar {
                         }
                     }
                 }
+                onPlacementCallback(pickedUpItem.contents, mapPos);
             }
             pickedUpItem = null;
         }

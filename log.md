@@ -1,6 +1,10 @@
-# Currently: items (beds, etc)
+# Currently: Minions (walking/pathfinding)
 
 # Log
+*9pm* - Or maybe not. I think I need to get onto minions, pathfinding with ropes might take awhile.
+
+*8:50pm* - Item placement on the map finally working. That took way longer than expected. Just going to improve position validation, so beds have to be on the floor etc.
+
 *7:20pm* - Added a camera so that the pixel graphics are finally scaled up to look pixelated. That prompted me to scale the UI rooms, which became too big, so I made them have a separate mini-render mode for the UI. All this camera work required a bunch of transformation math frustration, and there goes the hour. It was necessary though. Onto item placement, again!
 
 *6pm* - Mmh, the items are tiny. I might need to make some bigger machines, perhaps 3x2 tiles. Easy to get distracted pieces the room types together, there are some very satisfying combinations. Given the fun of that, I don't want to make rooms too expensive, I'm thinking that you should be placing one every 30s or so. The idea of a huge building, with hundreds of minions and machines sounds entertaining. Still so much to do - minions aren't even moving yet!

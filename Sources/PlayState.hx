@@ -1,5 +1,6 @@
 package ;
 
+import Selectable.SelectableContents;
 import kha.math.FastMatrix3;
 import kha.math.FastMatrix4;
 import kha.math.Vector2i;
@@ -11,6 +12,7 @@ class PlayState extends State {
     var rooms: Array<Room>;
     var placementBar: PlacementBar;
     var itemTypes: Array<ItemType> = [];
+    var minions: Array<Minion> = [];
 
     public function new() {
         super();
@@ -44,7 +46,7 @@ class PlayState extends State {
             }
         }
         
-        placementBar = new PlacementBar(rooms, itemTypes, map);
+        placementBar = new PlacementBar(rooms, itemTypes, map, onPlacement);
     }
 
     override public function render(framebuffer: Framebuffer) {
@@ -58,6 +60,9 @@ class PlayState extends State {
         for (item in itemTypes) {
             item.render(graphics, 80 + 24 * (i++), 640);
         }
+        for (minion in minions) {
+            minion.render(graphics);
+        }
         graphics.transformation = FastMatrix3.identity();
 
         graphics.end();
@@ -65,5 +70,17 @@ class PlayState extends State {
 
     override public function update() {
         placementBar.update();
+        for (minion in minions) minion.update();
+    }
+
+    function onPlacement(placed: SelectableContents, pos: Vector2i) {
+        switch (placed) {
+            case Room(room): {}
+            case Item(item): {
+                if (item.name == "Bed") {
+                    minions.push(new Minion(pos));
+                }
+            }
+        }
     }
 }
