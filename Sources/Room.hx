@@ -1,5 +1,6 @@
 package ;
 
+import kha.Color;
 import kha.graphics2.Graphics;
 using GraphicsExtension;
 
@@ -49,6 +50,20 @@ class Room {
         for (tile in tiles) {
             g.drawTile(tile.tile, tile.x + x, tile.y + y);
         }
+    }
+    public function renderSmall(g: Graphics, x, y) {
+        var scale = 2;
+        for (tile in tiles) {
+            g.color = switch(tile.tile) {
+                case Tile.Air: Color.Transparent;
+                case Tile.Wall: Color.fromBytes(93, 97, 96);
+                case Tile.Door: Color.fromBytes(193, 108, 106);
+                case Tile.Rope: Color.fromBytes(193, 168, 146);
+                case Tile.Interior: Color.fromBytes(200, 200, 200, 100);
+            }
+            g.fillRect((tile.x + x) * scale, (tile.y + y) * scale, scale, scale);
+        }
+        g.color = Color.White;
     }
 
     public function stampOnMap(map: TileMap, x: Int, y: Int) {

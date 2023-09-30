@@ -16,6 +16,11 @@ class MouseState {
         Mouse.get().notify(onMouseDown, onMouseUp, onMouseMove);
     }
 
+    public static function worldPos() {
+        var vec = Camera.transformToWorldSpace(pos);
+        return new Vector2i(Std.int(vec.x), Std.int(vec.y));
+    }
+
     public static function update() {
         leftButtonJustDown = isLeftButtonDown && !wasLeftButtonDown;
         rightButtonJustDown = isRightButtonDown && !wasRightButtonDown;

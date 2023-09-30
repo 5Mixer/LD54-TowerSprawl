@@ -1,6 +1,10 @@
-# Currently: room placement done, taking a break
+# Currently: items (beds, etc)
 
 # Log
+*6pm* - Mmh, the items are tiny. I might need to make some bigger machines, perhaps 3x2 tiles. Easy to get distracted pieces the room types together, there are some very satisfying combinations. Given the fun of that, I don't want to make rooms too expensive, I'm thinking that you should be placing one every 30s or so. The idea of a huge building, with hundreds of minions and machines sounds entertaining. Still so much to do - minions aren't even moving yet!
+ 
+*5:40pm* - Hah, amusing problem - with an 8x8 character, the items are either quite large compared with the player, or they only occupy a single tile, which sort of defeats the challenge of 'limited space'. That's alright, they can have big beds.
+
 *5:15pm* - Designed a little 8x8 minion. With such a small tileset, there's really not much room for detail, and animations might be minimalist, but I think I can make it work.
 
 *4:50pm* - Took a long break and cooked some food for tonight. I have gotten manual placement of rooms working, and they it checks that a placement is valid before allowing it. Now I'm going to get to placing stuff in rooms - beds, first, I think, which will be where minions rest.

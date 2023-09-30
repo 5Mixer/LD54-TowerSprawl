@@ -8,9 +8,9 @@ using VectorExtension;
 class PlacementBar {
     var position = new Vector2i();
     var rooms: Array<Room>;
-    var contentPadding = 10;
-    var interiorPadding = 10;
-    var windowHeight = 16 * Game.TILE_SIZE + 10 * 2; // Max room height is 16 tiles
+    var contentPadding = 2;
+    var interiorPadding = 1;
+    var windowHeight = 16 * Game.PREVIEW_TILE_SIZE + 2*2; // Max room height is 16 tiles, plus padding
     var pickedUpItem: Selectable;
     var pickUpOffset: Vector2i;
     var map: TileMap;
@@ -40,7 +40,7 @@ class PlacementBar {
 
     public function getPickedUpItemMapPos() {
         if (pickedUpItem != null) {
-            return new Vector2i(Math.round((MouseState.pos.x - pickUpOffset.x) / Game.TILE_SIZE), Math.round((MouseState.pos.y - pickUpOffset.y) / Game.TILE_SIZE));
+            return new Vector2i(Std.int((MouseState.worldPos().x/Game.TILE_SIZE) - pickUpOffset.x/Game.PREVIEW_TILE_SIZE), Std.int((MouseState.worldPos().y/Game.TILE_SIZE) - pickUpOffset.y/Game.PREVIEW_TILE_SIZE));
         }
         return null;
     }
@@ -49,7 +49,7 @@ class PlacementBar {
         var contents = getContents();
         if (pickedUpItem == null && MouseState.leftButtonJustDown) {
             for (item in contents) {
-                if (MouseState.pos.insideRectangle(item.pos, item.size)) {
+                if (MouseState.worldPos().insideRectangle(item.pos, item.size)) {
                     onPickUp(item);
                 }
             }
@@ -66,7 +66,7 @@ class PlacementBar {
     }
 
     function onPickUp(item: Selectable) {
-        pickUpOffset = new Vector2i(MouseState.pos.x - item.pos.x, MouseState.pos.y - item.pos.y);
+        pickUpOffset = new Vector2i(MouseState.worldPos().x - item.pos.x, MouseState.worldPos().y - item.pos.y);
         pickedUpItem = item;
         item.clickCallback();
     }
@@ -76,19 +76,19 @@ class PlacementBar {
         var x = contentPadding;
         var y = contentPadding;
         for (room in rooms) {
-            var roomPixelWidth = room.maxWidth * Game.TILE_SIZE;
-            var roomPixelHeight = room.maxHeight * Game.TILE_SIZE;
+            var roomWidth = room.maxWidth;
+            var roomHeight = room.maxHeight;
             var localX = x;
             var localY = y;
 
             contents.push(new Selectable(
-                new Vector2i(localX, localY),
-                new Vector2i(roomPixelWidth, roomPixelHeight),
+                new Vector2i(localX * Game.PREVIEW_TILE_SIZE, localY * Game.PREVIEW_TILE_SIZE),
+                new Vector2i(roomWidth * Game.PREVIEW_TILE_SIZE, roomHeight * Game.PREVIEW_TILE_SIZE),
                 () -> { },
-                (g) -> { room.render(g, Std.int(localX / Game.TILE_SIZE), Std.int(localY / Game.TILE_SIZE)); },
+                (g) -> { room.renderSmall(g, localX, localY); },
                 room
             ));
-            x += roomPixelWidth + interiorPadding;
+            x += roomWidth + interiorPadding;
         }
         return contents;
     }
