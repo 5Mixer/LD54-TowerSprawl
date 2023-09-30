@@ -41,7 +41,7 @@ class PlayState extends State {
     override public function render(framebuffer: Framebuffer) {
         var graphics = framebuffer.g2;
         graphics.begin();
-        graphics.clear(kha.Color.Black);
+        graphics.clear(kha.Color.fromBytes(122, 172, 187));
         map.render(graphics);
 
         // var roomIndex = 0;

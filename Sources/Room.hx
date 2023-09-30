@@ -35,6 +35,7 @@ class Room {
                     case '#': Tile.Wall;
                     case '/': Tile.Door;
                     case '|': Tile.Rope;
+                    case '_': Tile.Interior;
                     default: throw 'Unhandled character $character';
                 }
                 tiles.push(new PositionedTile(tile, x, y));

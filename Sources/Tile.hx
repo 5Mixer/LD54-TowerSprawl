@@ -5,4 +5,5 @@ enum Tile {
     Wall;
     Door;
     Rope;
+    Interior;
 }
