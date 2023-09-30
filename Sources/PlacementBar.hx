@@ -10,8 +10,7 @@ class PlacementBar {
     var rooms: Array<Room>;
     var contentPadding = 10;
     var interiorPadding = 10;
-    var tileSize = 8;
-    var windowHeight = 16 * 8 + 10 * 2; // Max room height is 16 tiles
+    var windowHeight = 16 * Game.TILE_SIZE + 10 * 2; // Max room height is 16 tiles
     var pickedUpItem: Selectable;
     var pickUpOffset: Vector2i;
     var map: TileMap;
@@ -32,13 +31,16 @@ class PlacementBar {
 
         if (pickedUpItem != null) {
             var mapPos = getPickedUpItemMapPos();
+            var validPlacement = pickedUpItem.room.canBePlacedAtMap(map, mapPos.x, mapPos.y);
+            g.color = validPlacement ? kha.Color.fromBytes(114, 224, 148, 200) : kha.Color.fromBytes(227, 91, 56, 200);
             pickedUpItem.room.render(g, mapPos.x, mapPos.y);
+            g.color = kha.Color.White;
         }
     }
 
     public function getPickedUpItemMapPos() {
         if (pickedUpItem != null) {
-            return new Vector2i(Math.round((MouseState.pos.x - pickUpOffset.x) / tileSize), Math.round((MouseState.pos.y - pickUpOffset.y) / 8));
+            return new Vector2i(Math.round((MouseState.pos.x - pickUpOffset.x) / Game.TILE_SIZE), Math.round((MouseState.pos.y - pickUpOffset.y) / Game.TILE_SIZE));
         }
         return null;
     }
@@ -74,8 +76,8 @@ class PlacementBar {
         var x = contentPadding;
         var y = contentPadding;
         for (room in rooms) {
-            var roomPixelWidth = room.maxWidth * tileSize;
-            var roomPixelHeight = room.maxHeight * tileSize;
+            var roomPixelWidth = room.maxWidth * Game.TILE_SIZE;
+            var roomPixelHeight = room.maxHeight * Game.TILE_SIZE;
             var localX = x;
             var localY = y;
 
@@ -83,7 +85,7 @@ class PlacementBar {
                 new Vector2i(localX, localY),
                 new Vector2i(roomPixelWidth, roomPixelHeight),
                 () -> { },
-                (g) -> { room.render(g, Std.int(localX / 8), Std.int(localY / 8)); },
+                (g) -> { room.render(g, Std.int(localX / Game.TILE_SIZE), Std.int(localY / Game.TILE_SIZE)); },
                 room
             ));
             x += roomPixelWidth + interiorPadding;

@@ -8,7 +8,6 @@ class TileMap {
     var tiles = new Array<Tile>();
     var width = 300;
     var height = 1000;
-    var tileSize = 8;
 
     public function new() {
         for (y in 0...height) {
@@ -16,7 +15,6 @@ class TileMap {
                 tiles.push(Tile.Air);
             }
         }
-
     }
 
     public function render(graphics: Graphics) {

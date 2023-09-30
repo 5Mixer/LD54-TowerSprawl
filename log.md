@@ -1,6 +1,26 @@
-# Currently: interactivity
+# Currently: room placement done, taking a break
 
 # Log
+*5:15pm* - Designed a little 8x8 minion. With such a small tileset, there's really not much room for detail, and animations might be minimalist, but I think I can make it work.
+
+*4:50pm* - Took a long break and cooked some food for tonight. I have gotten manual placement of rooms working, and they it checks that a placement is valid before allowing it. Now I'm going to get to placing stuff in rooms - beds, first, I think, which will be where minions rest.
+
+Trying to decide how I'll implement items (enums, or inherited from a base class, etc). Some requirements:
+- Items will be larger than a single tile
+- Will need to be identifiable for path finding
+- Will probably need collisions
+- should be destroyable (all at once, not tile by tile)
+- will have constraints on where they can be placed (beds can't float, etc)
+- may need state
+
+Specific items, in rough order of planned eventual implementation:
+- Bed, one per minion. At night (10 seconds, every two minutes) the minions run to their beds. If they can't get to one, they slowly lose health until they perish??
+- Kitchen/stove top (converst 1 raw algae to food per second when operated, minions run to kitchen when food below 5, and eat 5 food)
+- Algae farm (generates 1 raw algae per second, when harvested)
+- Work bench (generates 1 gadget per minute when operated)
+- Lantern (illuminates the surrounding area, which does... something?)
+- Storage chest (minions put gadgets here)
+
 *12:45am* - Lunch was tasty. I'm reconsidering manual room placement, and the core game loop, or would at least like to put into writing how it would work. I'm thinking there's a UI on the right hand side with stuff you own - rooms, beds, machines, etc. Maybe a panel on the left listing your minions and their attributes. You can drag stuff you own onto the map, and it will let you drop it if it would be put in a valid location. You get stuff by buying it from a UI shop (not great), or perhaps looting it from a neighboring building, by occupying it with your minions for a period of time.
 
 The alternative has less of a UI, which is always good. There is no shop, you just have stuff in rooms that belong to you. You can take stuff from rooms that don't belong to you, or just occupy rooms that aren't yours to eventually own them.
