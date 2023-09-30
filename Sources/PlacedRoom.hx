@@ -1,10 +1,12 @@
 package ;
 
+import kha.math.Vector2i;
+
 class PlacedRoom {
     var roomTemplate: Room;
-    var pos: Pos;
+    var pos: Vector2i;
 
-    public function new(roomTemplate: Room, pos: Pos) {
+    public function new(roomTemplate: Room, pos: Vector2i) {
         this.roomTemplate = roomTemplate;
         this.pos = pos;
     }
@@ -14,6 +16,6 @@ class PlacedRoom {
     }
 
     public function getDoorPositions() {
-        return roomTemplate.getDoors().map(doorTile -> new Pos(pos.x + doorTile.x, pos.y + doorTile.y));
+        return roomTemplate.getDoors().map(doorTile -> new Vector2i(pos.x + doorTile.x, pos.y + doorTile.y));
     }
 }

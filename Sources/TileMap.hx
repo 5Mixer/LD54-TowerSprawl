@@ -6,6 +6,7 @@ using GraphicsExtension;
 
 class TileMap {
     var tiles = new Array<Tile>();
+    var items = new Array<PlacedItem>();
     var width = 300;
     var height = 1000;
 
@@ -17,12 +18,15 @@ class TileMap {
         }
     }
 
-    public function render(graphics: Graphics) {
+    public function render(g: Graphics) {
         for (y in 0...height) {
             for (x in 0...width) {
                 if (get(x, y) != Tile.Air)
-                    graphics.drawTile(get(x, y), x, y);
+                    g.drawTile(get(x, y), x, y);
             }
+        }
+        for (item in items) {
+            item.render(g);
         }
     }
 
@@ -32,5 +36,9 @@ class TileMap {
     
     public function get(x: Int, y: Int) {
         return tiles[y * width + x];
+    }
+
+    public function addItem(item: PlacedItem) {
+        items.push(item);
     }
 }

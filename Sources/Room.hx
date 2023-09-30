@@ -1,5 +1,6 @@
 package ;
 
+import kha.math.Vector2i;
 import kha.Color;
 import kha.graphics2.Graphics;
 using GraphicsExtension;
@@ -100,7 +101,7 @@ class Room {
         var validAttachments = [];
         for (door in getDoors()) {
             if (canBePlacedAtMap(map, doorX - door.x, doorY - door.y)) {
-                validAttachments.push(new Pos(doorX - door.x, doorY - door.y));
+                validAttachments.push(new Vector2i(doorX - door.x, doorY - door.y));
             }
         }
         return validAttachments;

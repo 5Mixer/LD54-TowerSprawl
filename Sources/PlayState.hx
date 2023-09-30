@@ -16,7 +16,7 @@ class PlayState extends State {
         super();
         rooms = RoomLoader.loadRooms(Assets.blobs.rooms_txt);
 
-        var originRoom = new PlacedRoom(rooms[1], new Pos(80, 50));
+        var originRoom = new PlacedRoom(rooms[1], new Vector2i(80, 50));
         originRoom.stamp(map);
         var placedRooms = [originRoom];
 

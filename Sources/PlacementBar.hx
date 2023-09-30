@@ -80,7 +80,7 @@ class PlacementBar {
                     }
                     case Item(item): {
                         if (item.canBePlacedAtMap(map, mapPos.x, mapPos.y)) {
-                            // item.stampOnMap(map, mapPos.x, mapPos.y);
+                            map.addItem(new PlacedItem(item, mapPos));
                         }
                     }
                 }
