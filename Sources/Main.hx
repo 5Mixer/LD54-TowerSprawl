@@ -6,22 +6,26 @@ import kha.Scheduler;
 import kha.System;
 
 class Main {
-	static function update(): Void {
+	var activeState: State;
 
+	public function new() {
+		activeState = new PlayState();
 	}
 
-	static function render(framebuffer: Framebuffer): Void {
+	function update(): Void {
+		activeState.update();
+	}
 
+	function render(framebuffer: Framebuffer): Void {
+		activeState.render(framebuffer);
 	}
 
 	public static function main() {
-		System.start({title: "Kha", width: 800, height: 600}, function (_) {
-			// Just loading everything is ok for small projects
+		System.start({title: "TowerSprawl", width: 800, height: 600}, function (_) {
 			Assets.loadEverything(function () {
-				// Avoid passing update/render directly,
-				// so replacing them via code injection works
-				Scheduler.addTimeTask(function () { update(); }, 0, 1 / 60);
-				System.notifyOnFrames(function (framebuffers) { render(framebuffers[0]); });
+				var main = new Main();
+				Scheduler.addTimeTask(function () { main.update(); }, 0, 1 / 60);
+				System.notifyOnFrames(function (framebuffers) { main.render(framebuffers[0]); });
 			});
 		});
 	}

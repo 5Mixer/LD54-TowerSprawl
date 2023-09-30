@@ -1,4 +1,4 @@
-# Currently: Game Planning
+# Currently: Making base engine - sprite/map rendering
 
 # Log
 
