@@ -1,6 +1,8 @@
 package ;
 
 enum Tile {
-    Floor;
     Air;
+    Wall;
+    Door;
+    Rope;
 }

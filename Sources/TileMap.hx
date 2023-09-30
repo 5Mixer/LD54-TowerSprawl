@@ -2,6 +2,7 @@ package ;
 
 import kha.Assets;
 import kha.graphics2.Graphics;
+using GraphicsExtension;
 
 class TileMap {
     var tiles = new Array<Tile>();
@@ -12,7 +13,7 @@ class TileMap {
     public function new() {
         for (y in 0...height) {
             for (x in 0...width) {
-                tiles.push(Math.random() > .5 ? Tile.Air : Tile.Floor);
+                tiles.push(Tile.Air);
             }
         }
 
@@ -20,15 +21,7 @@ class TileMap {
     public function render(graphics: Graphics) {
         for (y in 0...height) {
             for (x in 0...width) {
-                graphics.drawSubImage(
-                    Assets.images.spritesheet,
-                    x * tileSize,
-                    y * tileSize,
-                    tiles[y*width+x].getIndex() * tileSize,
-                    0,
-                    tileSize,
-                    tileSize
-                );
+                graphics.drawTile(tiles[y*width+x], x, y);
             }
         }
     }

@@ -1,6 +1,8 @@
-# Currently: Making base engine - sprite/map rendering
+# Currently: Making room loading
 
 # Log
+
+10:30am - Have got a basic project with Kha running, and rendering from a tilemap. Currently working on a room loader, and have used ascii art to define a bunch of standard rooms, with different shapes, ropes, and exits.
 
 9:05am - Have settled on a tower building/management/defence game. Start with a room on the ground and a minion, buy rooms of strange shapes that snap onto other rooms. Minions generate money, try to steal rooms from neighboring buildings, etc. Minion classes, like in 'Lemmings'. 2D, with Kha.
 
