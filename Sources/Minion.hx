@@ -160,10 +160,10 @@ class Minion {
                 }
             }
             case CompletingTask: {
-                if (task.item.getPathFindTarget().x != mapPos.x || task.item.getPathFindTarget().y != mapPos.y) {
-                    state = Walking(CompletingTask);
-                    return;
-                }
+                // if (task.item.getPathFindTarget().x != mapPos.x || task.item.getPathFindTarget().y != mapPos.y) {
+                //     state = Walking(CompletingTask);
+                //     return;
+                // }
                 if (task == null || task.isComplete) {
                     state = Idle;
                     task = null;

@@ -113,32 +113,34 @@ class PlayState extends State {
         var freeTasks = [];
         
         for (item in map.getItems()) {
-            freeTasks = freeTasks.concat(item.getTasks().filter((task) -> getTaskOwner(task) == null));
+            freeTasks = freeTasks.concat(item.getTasks());//.filter((task) -> getTaskOwner(task) == null));
         }
 
-        for (task in freeTasks) {
-            var freeMinions = minions.filter((minion) -> minion.task == null);
-            if (freeMinions.length == 0) break;
-
-            var nearestMinion = null;
-            var minDistance = Math.POSITIVE_INFINITY;
-            for (minion in freeMinions) {
-                // If food is getting low, only accept food tasks
-                if (minion.food < minion.maxFood * .3) {
-                    if (task.type != Harvest)
-                        continue;
-                }
-                var path = map.pathfind(task.item.pos, minion.mapPos);
-                if (path == null) continue;
-                var distance = path.length;
-                if (distance < minDistance && distance > 0) {
-                    minDistance = distance;
-                    nearestMinion = minion;
+        // Every task should be assigned to the minion closest to it.
+        // Can't just loop through tasks and assign nearest minion, as that task may be the furthest - eg:
+        // T1 T2 T3            Minion
+        // A simple loop pairs (T1, Minion) when (T3, Minion) is best.
+        var freeMinions = minions.filter(minion -> minion.heldItem == null && (minion.state.match(Idle) || minion.state.match(Walking(_)))); //.copy();//.filter((minion) -> minion.task == null);
+        while (freeTasks.length > 0 && freeMinions.length > 0){
+            var bestPair: { minion: Minion, task:Task } = null;
+            var bestDistance = Math.POSITIVE_INFINITY;
+            for (task in freeTasks) {
+                for (minion in freeMinions) {
+                    var path = map.pathfind(task.item.getPathFindTarget(), minion.mapPos);
+                    if (path == null) continue;
+                    var distance = path.length;
+                    if (distance < bestDistance && distance > 0) {
+                        bestDistance = distance;
+                        bestPair = { minion: minion, task: task };
+                    }
                 }
             }
-            
-            if (nearestMinion != null) {
-                nearestMinion.task = task;
+            if (bestPair != null) {
+                bestPair.minion.task = bestPair.task;
+                freeMinions.remove(bestPair.minion);
+                freeTasks.remove(bestPair.task);
+            } else {
+                break;
             }
         }
     }

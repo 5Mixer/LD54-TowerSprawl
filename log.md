@@ -2,6 +2,12 @@
 
 # Log
 # Sunday
+*8:20pm* - Minions put machined tiles into the boxes. Their prioritisation is kind of dodgy though, and minions are dying machining, despite walking past mushrooms haha. It's hard to optimise all the factors of
+- Tasks should go to nearby minions. So it's an optimisation problem where the sum of distances of taken-without-replacement pairs of points from separate sets should be minimised.
+- Harvest tasks should go to hungry minions (though all minions should go to storage for food if hungry)
+
+I think I'll try to solve that first dot point. It'll be a slow solution, probably brute forced and exact, but I think it'll look more logical in the game.
+
 *7:55pm* - Basic generator in, with a kind of cool animation on the generated tile, to disambiguate it from the surrounding tiles.
 
 *7:20pm* - Minions now retrieve mushrooms from boxes if they're not doing anything and are hungry. It's quite satisfying to add a couple of boxes, minions, and mushroom farms now. Very satisfying to wrap up the box/mushroom mechanics, at least for now.
