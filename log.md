@@ -2,6 +2,10 @@
 
 # Log
 # Sunday
+*5:20pm* - UI work saps my energy so I went the relatively simple route of a tiny hunger/health bar above minions that decreases over time, and dead just by disappearance for now.
+
+I think I'll allow minions to hold items now. When they harvest a mushroom, they'll hold it, and if they're hungry, eat it, otherwise they'll store it.
+
 *4:45pm* - Lots of bug hunting later and mushroom harvesting is looking pretty good. I created a task system, items register that they have tasks to do, minions that don't have tasks are assigned a task and run to the item to do it. I had some bugs around bidirectional references (tasks to minions, minions to tasks) going out of sync. I knew it was a possibility when I setup the references, it was silly to try anyway. I've resorted to a single direction (minions own a task) and search when necessary - in reality, computers are fast, looping through the full set of minions is hardly going to blow my perf budget.
 
 There's lots to do but I'm not sure where to go. The mushrooms have to have a purpose, so I think I'll add minion hunger, which is sated when they harvest a mushroom. No hunger and they explode. The bed then doesn't have an occupier, which perhaps is fine? I just need to make it obvious that the minion died, the player shouldn't be confused if it happens off screen etc. Maybe minions have names, and when one dies, it leaves a pile of bones that can be hovered over to see the name? Rather macabre but could be informative.

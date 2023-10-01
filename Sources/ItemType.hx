@@ -3,6 +3,10 @@ package ;
 import kha.math.Vector2i;
 import kha.graphics2.Graphics;
 
+enum Item {
+    Mushroom;
+}
+
 class ItemType {
     public var name: String;
     public var spriteSheetPos: Vector2i;

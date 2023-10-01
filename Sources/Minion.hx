@@ -8,7 +8,6 @@ import kha.Color;
 enum MinionState {
     Sleep;
     Idle;
-    Working(at: Vector2i);
     Walking(targetState: MinionState);
     CompletingTask;
 }
@@ -21,6 +20,7 @@ class Minion {
     public var food: Int = 100;
     public var maxFood: Int = 100;
     public var alive = true;
+    public var heldItem: ItemType;
 
     var speed = 1;
     var tick = 0;
@@ -42,6 +42,11 @@ class Minion {
             Game.TILE_SIZE,
             Game.TILE_SIZE
         );
+
+        if (heldItem != null) {
+            heldItem.render(g, mapPos.x, mapPos.y - 1);
+        }
+
         g.color = Color.fromBytes(59, 25, 21);
         g.fillRect(pos.x, pos.y - 2, Game.TILE_SIZE, 1);
         g.color = Color.fromBytes(178, 78, 78);
@@ -79,11 +84,15 @@ class Minion {
 
         switch (state) {
             case Sleep: {}
-            case Idle: { if (task != null) state = Walking(CompletingTask); }
-            case Working(_): {}
+            case Idle: {
+                if (food < maxFood - 20 && heldItem.name == "Mushroom") {
+                    heldItem = null;
+                    food += 20;
+                }
+                if (task != null && heldItem == null) state = Walking(CompletingTask);
+            }
             case Walking(targetState): {
                 switch(targetState) {
-                    case Working(location): walkTo(location, map, () -> { state = targetState; });
                     case Sleep: walkTo(bedPosition, map, () -> { state = targetState; });
                     case CompletingTask: walkTo(task.item.pos, map, () -> { state = targetState; });
                     default: { state = targetState; };
@@ -91,7 +100,6 @@ class Minion {
             }
             case CompletingTask: {
                 if (task.item.pos.x != mapPos.x || task.item.pos.y != mapPos.y) {
-                    trace('Had task $task but hadn\'t walked to it');
                     state = Walking(CompletingTask);
                     return;
                 }
@@ -100,7 +108,7 @@ class Minion {
                     task = null;
                     return;
                 }
-                task.progress();
+                task.progress(this);
             }
         }
     }

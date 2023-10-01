@@ -20,8 +20,9 @@ class MushroomFarm extends PlacedItem {
         ) {
             stage++;
             if (stage == maxStage) {
-                harvestTask = new Task(Harvest, this, () -> {
+                harvestTask = new Task(Harvest, this, (minion) -> {
                     stage = 0;
+                    minion.heldItem = item;
                     harvestTask.complete();
                     harvestTask = null;
                 });
