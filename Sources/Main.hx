@@ -14,8 +14,8 @@ class Main {
 	}
 
 	function update(): Void {
-		MouseState.update();
 		activeState.update();
+		MouseState.update();
 	}
 
 	function render(framebuffer: Framebuffer): Void {

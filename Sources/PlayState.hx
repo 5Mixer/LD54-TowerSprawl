@@ -106,6 +106,10 @@ class PlayState extends State {
         minions = minions.filter(minion -> minion.alive);
         for (item in map.getItems()) item.update();
 
+        if (MouseState.isMiddleButtonDown) {
+            Camera.position = Camera.position.add(MouseState.delta.mult(-1).div(Camera.scale));
+        }
+
         tick++;
     }
 

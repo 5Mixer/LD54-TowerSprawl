@@ -2,6 +2,11 @@
 
 # Log
 # Sunday
+*10:50pm* - Minions turn temporary rooms into real rooms by walking walls to them. So so satisfying. I think my final goals for the night are
+- camera
+- tile by tile placement
+- publish to my site and release on ldjam.
+
 *10:10pm* - Planned tiles down. I changed the Tile enum to a TileMap enum which includes a 'real' flag. The abstraction of a TileMap made modifying the related systems mostly pain free, fortunately. Now I just need to make minions know that there is a related task, so the non-real rooms can become real.
 
 *9:40* - Alright, this seems non-trivial.
