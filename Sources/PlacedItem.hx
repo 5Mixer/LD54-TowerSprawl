@@ -17,6 +17,10 @@ class PlacedItem {
     }
 
     public function update() {
-        
+
+    }
+
+    public function getTasks() {
+        return [];
     }
 }

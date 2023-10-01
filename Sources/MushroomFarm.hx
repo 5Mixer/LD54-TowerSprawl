@@ -9,15 +9,23 @@ class MushroomFarm extends PlacedItem {
     var tick = 0;
     var growthProbability = 0.1;
     var variant = Math.floor(Math.random() * 3);
+    var harvestTask: Task;
 
     override public function update() {
         tick++;
 
         if (stage < maxStage &&
-            tick % 30 == 0 &&
+            tick % 5 == 0 &&
             Math.random() < growthProbability
         ) {
             stage++;
+            if (stage == maxStage) {
+                harvestTask = new Task(Harvest, this, () -> {
+                    stage = 0;
+                    harvestTask.complete();
+                    harvestTask = null;
+                });
+            }
         }
     }
 
@@ -33,5 +41,9 @@ class MushroomFarm extends PlacedItem {
             Game.TILE_SIZE,
             spriteHeight * Game.TILE_SIZE
         );
+    }
+
+    override public function getTasks() {
+        return harvestTask == null || harvestTask?.isComplete ? [] : [harvestTask];
     }
 }

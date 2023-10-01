@@ -100,8 +100,39 @@ class PlayState extends State {
         g.end();
     }
 
+    function getTaskOwner(task: Task) {
+        for (minion in minions) if (minion.task == task) return minion;
+        return null;
+    }
+
     override public function update() {
         placementBar.update();
+        
+        var freeTasks = [];
+        for (item in map.getItems()) {
+            freeTasks = freeTasks.concat(item.getTasks().filter((task) -> getTaskOwner(task) == null));
+        }
+        for (task in freeTasks) {
+            var freeMinions = minions.filter((minion) -> minion.task == null);
+            if (freeMinions.length == 0) break;
+
+            var nearestMinion = null;
+            var minDistance = Math.POSITIVE_INFINITY;
+            for (minion in freeMinions) {
+                var path = map.pathfind(task.item.pos, minion.mapPos);
+                if (path == null) continue;
+                var distance = path.length;
+                if (distance < minDistance && distance > 0) {
+                    minDistance = distance;
+                    nearestMinion = minion;
+                }
+            }
+            
+            if (nearestMinion != null) {
+                nearestMinion.task = task;
+            }
+        }
+
         for (minion in minions) minion.update(map);
         for (item in map.getItems()) item.update();
 
@@ -111,7 +142,7 @@ class PlayState extends State {
         if (previouslyDayTime != dayTime) {
             var cursorMapPos = new Vector2i(Std.int(MouseState.worldPos().x / Game.TILE_SIZE), Std.int(MouseState.worldPos().y / Game.TILE_SIZE));
             switch(dayTime) {
-                case true: for (minion in minions) minion.state = Walking(Working(cursorMapPos));
+                case true: for (minion in minions) if (minion.state == Sleep) { minion.state = Idle; minion.task = null; }
                 case false: for (minion in minions) minion.state = Walking(Sleep);
             }
         }

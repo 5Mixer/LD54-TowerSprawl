@@ -1,7 +1,9 @@
-# Currently: Adding mushroom farms
+# Currently: Adding automated mushroom farming
 
 # Log
 # Sunday
+*2:35pm* - Have added mushroom farms, with simple growth and three visual variants. Increasingly eager to go wild with a lighting system, but for now harvesting is more important. Once minions harvest mushrooms, they'll just eat/destroy them. Later I'll think about kitchens and food storage. Random idea I had before - newly spawned minions are mini-minions, which don't do anything but eat for a certain duration, to help prevent spamming beds/minions down.
+
 *2:00pm* - Did a huge clean, had a guest over, had lunch, enjoyed the weather for awhile. Back at it now!
 
 *10:25am* - Smooth walking minions in, awesome. Interesting bug where pathfinding would cut corners, as the map position, rounded off from the player position, would jump ahead of where the player appeared. Taking a break for some chores, then I think I'll work on some more entities/items for the minions to operate.

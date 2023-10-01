@@ -52,19 +52,19 @@ class TileMap {
     public function pathfind(start: Vector2i, finish: Vector2i) {
         var openForExploration = [start];
         var reversePathways = new Map<Int, Vector2i>();
-        var path = [];
         var attempts = 10000;
         while (openForExploration.length > 0 && attempts-- > 0) {
             var exploredPoint = openForExploration.shift();
 
             if (exploredPoint.x == finish.x && exploredPoint.y == finish.y) {
-                path = [exploredPoint];
+                var path = [exploredPoint];
                 var parent = reversePathways.get(exploredPoint.y * width + exploredPoint.x);
                 while (parent != null && parent != start) {
                     path.push(parent);
                     parent = reversePathways.get(parent.y * width + parent.x);
                 }
-                break;
+                path.reverse();
+                return path;
             }
 
             var neighbors = pathfindingNeighbors(exploredPoint);
@@ -76,8 +76,7 @@ class TileMap {
                 openForExploration.push(neighbor);
             }
         }
-        path.reverse();
-        return path;
+        return null;
     }
 
     public function getItem(pos: Vector2i) {
