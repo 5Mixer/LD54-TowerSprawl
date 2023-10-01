@@ -1,7 +1,29 @@
-# Currently: Adding minion hunger
+# Currently: Tile generator machine & camera.
 
 # Log
 # Sunday
+*7:55pm* - Basic generator in.
+
+*7:20pm* - Minions now retrieve mushrooms from boxes if they're not doing anything and are hungry. It's quite satisfying to add a couple of boxes, minions, and mushroom farms now. Very satisfying to wrap up the box/mushroom mechanics, at least for now.
+
+There's a few things on my list I haven't got to (lighting, item removal, etc), but I think I need to start incorporating room placement, and perhaps camera movement. Ideas:
+
+- Machine that generates the tiles that build up rooms. Place down room templates, minions have to go down and place tiles.
+- Limit to 5 random previewed rooms, placement is free.
+- Minions generate money, rooms cost money to buy
+
+I think the first option is my favourite, but if I choose it I'm choosing against other cool stuff I want to implement like lighting (and box UI previews, which would be useful), and it's a gamble if I get it done tonight. Thoughts
+- Machine generates either wall or ladder tiles every 10s or so, like mushroom farms. Minions collect it, run it to storage or place it. Not that dissimilar to mushroom behavior. Whether to focus on harvesting or mining/machining (?) could be based on hunger, or availability of materials in box?
+- Placement is tricky, minions can't fly to place roof wall tiles, etc. I'd consider a separate minion type, but that's starting to feel a tedious route, I like the idea they're generalists.
+  - Perhaps they walk to an exit of the new room, the item is taken from their hands, and added to the in progress room. When the room is no longer in progress, they can walk into it. I think I like this, even though the movement of the tiles from their hands to the wall is magic.
+
+Stuff it, I'm going the route of minions machining and building rooms. Crikey this is a huge project. Goals:
+- Tile generator machine by 8:10pm.
+- Tile collection by 8:30pm
+- New room placement as scaffold by 9pm
+- Dropping off tiles to scaffold and building up room by 9:30pm
+- Publish by 10pm??? No way but that's the ambition.
+
 *6:35pm* - Minions now store mushrooms in boxes, unless they're hungry and eat them first. Just realised it's so light outside because daylight savings started, hm. Now I think I'll make minions seek boxes with mushrooms in them if they're hungry. I have no idea when this tenuous minion state machine is going to become completely disfunctional, but I'm pretty sure I get closer to that every change. Hopefully it's more fun than frustrating.
 
 *5:20pm* - UI work saps my energy so I went the relatively simple route of a tiny hunger/health bar above minions that decreases over time, and dead just by disappearance for now.

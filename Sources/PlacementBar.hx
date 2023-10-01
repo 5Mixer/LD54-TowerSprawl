@@ -84,6 +84,7 @@ class PlacementBar {
                             var placedItem = switch(item.type) {
                                 case Mushroom: new MushroomFarm(item, mapPos);
                                 case Box: new Box(item, mapPos);
+                                case Machine: new Machine(item, mapPos);
                                 default: new PlacedItem(item, mapPos);
                             }
                             map.addItem(placedItem);
@@ -125,6 +126,8 @@ class PlacementBar {
         x += 10; // Arbitrary padding between rooms and items...
 
         for (item in Game.ITEM_TYPES) {
+            if (!item.inPlacementBar) continue;
+
             var xCopy = x;
 
             contents.push(new Selectable(

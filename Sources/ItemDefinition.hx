@@ -7,12 +7,20 @@ class ItemDefinition {
     public var type: ItemType;
     public var spriteSheetPos: Vector2i;
     public var spriteSheetSize: Vector2i;
+    public var inPlacementBar: Bool;
     var canBePlacedCallback: (where: Vector2i, map: TileMap) -> Bool;
 
-    public function new(type: ItemType, spriteSheetPos: Vector2i, spriteSheetSize: Vector2i, canBePlacedCallback: (Vector2i, TileMap) -> Bool = null) {
+    public function new(
+        type: ItemType,
+        spriteSheetPos: Vector2i,
+        spriteSheetSize: Vector2i,
+        inPlacementBar: Bool,
+        canBePlacedCallback: (Vector2i, TileMap) -> Bool = null
+    ) {
         this.type = type;
         this.spriteSheetPos = spriteSheetPos;
         this.spriteSheetSize = spriteSheetSize;
+        this.inPlacementBar = inPlacementBar;
         this.canBePlacedCallback = canBePlacedCallback;
     }
 

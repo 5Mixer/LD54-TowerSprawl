@@ -5,4 +5,6 @@ enum ItemType {
     Box;
     Lamp;
     Bed;
+    Machine;
+    Wall;
 }
