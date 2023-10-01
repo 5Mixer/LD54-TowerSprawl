@@ -1,5 +1,6 @@
 package ;
 
+import kha.math.Vector2i;
 import kha.Assets;
 import kha.graphics2.Graphics;
 
@@ -14,9 +15,9 @@ class Machine extends PlacedItem {
         if (generatedItem == null && tick % 60 == 0) {
             generatedItem = ItemType.Wall;
 
-            collectionTask = new Task(Harvest, this, (minion) -> {
-                generatedItem = null;
+            collectionTask = new Task(Collect, this, (minion) -> {
                 minion.heldItem = generatedItem;
+                generatedItem = null;
                 collectionTask.complete();
                 collectionTask = null;
             });
@@ -32,5 +33,9 @@ class Machine extends PlacedItem {
 
     override public function getTasks() {
         return collectionTask == null || collectionTask?.isComplete ? [] : [collectionTask];
+    }
+
+    override public function getPathFindTarget() {
+        return pos.add(new Vector2i(1, 1));
     }
 }

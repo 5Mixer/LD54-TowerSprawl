@@ -23,4 +23,8 @@ class PlacedItem {
     public function getTasks() {
         return [];
     }
+
+    public function getPathFindTarget() {
+        return pos;
+    }
 }

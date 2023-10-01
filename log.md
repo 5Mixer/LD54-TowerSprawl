@@ -2,7 +2,7 @@
 
 # Log
 # Sunday
-*7:55pm* - Basic generator in.
+*7:55pm* - Basic generator in, with a kind of cool animation on the generated tile, to disambiguate it from the surrounding tiles.
 
 *7:20pm* - Minions now retrieve mushrooms from boxes if they're not doing anything and are hungry. It's quite satisfying to add a couple of boxes, minions, and mushroom farms now. Very satisfying to wrap up the box/mushroom mechanics, at least for now.
 

@@ -123,6 +123,11 @@ class PlayState extends State {
             var nearestMinion = null;
             var minDistance = Math.POSITIVE_INFINITY;
             for (minion in freeMinions) {
+                // If food is getting low, only accept food tasks
+                if (minion.food < minion.maxFood * .3) {
+                    if (task.type != Harvest)
+                        continue;
+                }
                 var path = map.pathfind(task.item.pos, minion.mapPos);
                 if (path == null) continue;
                 var distance = path.length;

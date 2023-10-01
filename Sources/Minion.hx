@@ -139,7 +139,7 @@ class Minion {
             case Walking(targetState): {
                 switch(targetState) {
                     case Sleep: walkTo(bedPosition, map, () -> { state = targetState; });
-                    case CompletingTask: walkTo(task.item.pos, map, () -> { state = targetState; });
+                    case CompletingTask: walkTo(task.item.getPathFindTarget(), map, () -> { state = targetState; });
                     case StoringItem: {
                         var box = nearestBox(map, (_) -> true);
                         if (box != null) {
@@ -160,7 +160,7 @@ class Minion {
                 }
             }
             case CompletingTask: {
-                if (task.item.pos.x != mapPos.x || task.item.pos.y != mapPos.y) {
+                if (task.item.getPathFindTarget().x != mapPos.x || task.item.getPathFindTarget().y != mapPos.y) {
                     state = Walking(CompletingTask);
                     return;
                 }
