@@ -2,6 +2,8 @@
 
 # Log
 # Sunday
+*6:35pm* - Minions now store mushrooms in boxes, unless they're hungry and eat them first. Just realised it's so light outside because daylight savings started, hm. Now I think I'll make minions seek boxes with mushrooms in them if they're hungry. I have no idea when this tenuous minion state machine is going to become completely disfunctional, but I'm pretty sure I get closer to that every change. Hopefully it's more fun than frustrating.
+
 *5:20pm* - UI work saps my energy so I went the relatively simple route of a tiny hunger/health bar above minions that decreases over time, and dead just by disappearance for now.
 
 I think I'll allow minions to hold items now. When they harvest a mushroom, they'll hold it, and if they're hungry, eat it, otherwise they'll store it.

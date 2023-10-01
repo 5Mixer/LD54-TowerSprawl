@@ -5,7 +5,7 @@ import kha.math.Vector2i;
 
 enum SelectableContents {
     Room(room: Room);
-    Item(item: ItemType);
+    Item(item: ItemDefinition);
 }
 
 class Selectable {

@@ -4,10 +4,10 @@ import kha.graphics2.Graphics;
 import kha.math.Vector2i;
 
 class PlacedItem {
-    public var item: ItemType;
+    public var item: ItemDefinition;
     public var pos: Vector2i;
 
-    public function new(item: ItemType, pos: Vector2i) {
+    public function new(item: ItemDefinition, pos: Vector2i) {
         this.item = item;
         this.pos = pos;
     }

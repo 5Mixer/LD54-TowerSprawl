@@ -15,7 +15,7 @@ class PlayState extends State {
     var map: TileMap = new TileMap();
     var rooms: Array<Room>;
     var placementBar: PlacementBar;
-    var itemTypes: Array<ItemType> = [];
+    var itemTypes: Array<ItemDefinition> = [];
     var minions: Array<Minion> = [];
     var tick = 0;
     var timeOfDay = 0;
@@ -31,27 +31,10 @@ class PlayState extends State {
         #if kha_html5
         skyImageBytes = skyImage.getPixels();
         #end
-        
-        itemTypes = [
-            new ItemType("Bed",          new Vector2i(0, 3), new Vector2i(2, 1),
-                function isBedLocationSuitable(where) {
-                    return
-                        map.get(where.x, where.y+1) == Wall && map.get(where.x+1, where.y+1) == Wall && // Space below bed must be wall
-                        map.get(where.x, where.y-1) == Interior && map.get(where.x+1, where.y-1) == Interior; // Space above bed must be interior
-                }),
-            new ItemType("Lamp",         new Vector2i(2, 4), new Vector2i(1, 1)),
-            new ItemType("Mushroom",     new Vector2i(0, 6), new Vector2i(1, 1)),
-            new ItemType("Box",          new Vector2i(0, 9), new Vector2i(1, 1),
-                function isBedLocationSuitable(where) {
-                    return
-                        map.get(where.x, where.y+1) == Wall && // Space below box must be wall
-                        map.get(where.x, where.y-1) == Interior; // Space above box must be interior
-                })
-        ];
 
         constructLevel();
         
-        placementBar = new PlacementBar(rooms, itemTypes, map, onPlacement);
+        placementBar = new PlacementBar(rooms, map, onPlacement);
     }
 
     function createSkyImage() {
@@ -178,7 +161,7 @@ class PlayState extends State {
         switch (placed) {
             case Room(room): {}
             case Item(item): {
-                if (item.name == "Bed") {
+                if (item.type == Bed) {
                     minions.push(new Minion(pos));
                 }
             }

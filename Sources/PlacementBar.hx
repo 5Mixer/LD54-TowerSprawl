@@ -9,7 +9,6 @@ using VectorExtension;
 class PlacementBar {
     var position = new Vector2i();
     var rooms: Array<Room>;
-    var itemTypes: Array<ItemType>;
     var contentPadding = 2;
     var interiorPadding = 2;
     var windowHeight = 16 * Game.PREVIEW_TILE_SIZE + 3*Game.PREVIEW_TILE_SIZE; // Max room height is 16 tiles, plus padding
@@ -18,9 +17,8 @@ class PlacementBar {
     var map: TileMap;
     var onPlacementCallback: (placed: SelectableContents, pos: Vector2i) -> Void;
 
-    public function new(rooms: Array<Room>, itemTypes: Array<ItemType>, map: TileMap, onPlacementCallback: (placed: SelectableContents, pos: Vector2i) -> Void) {
+    public function new(rooms: Array<Room>, map: TileMap, onPlacementCallback: (placed: SelectableContents, pos: Vector2i) -> Void) {
         this.rooms = rooms;
-        this.itemTypes = itemTypes;
         this.map = map;
         this.onPlacementCallback = onPlacementCallback;
     }
@@ -83,9 +81,9 @@ class PlacementBar {
                     }
                     case Item(item): {
                         if (item.canBePlacedAtMap(map, mapPos.x, mapPos.y)) {
-                            var placedItem = switch(item.name) {
-                                case "Mushroom": new MushroomFarm(item, mapPos);
-                                case "Box": new Box(item, mapPos);
+                            var placedItem = switch(item.type) {
+                                case Mushroom: new MushroomFarm(item, mapPos);
+                                case Box: new Box(item, mapPos);
                                 default: new PlacedItem(item, mapPos);
                             }
                             map.addItem(placedItem);
@@ -126,7 +124,7 @@ class PlacementBar {
 
         x += 10; // Arbitrary padding between rooms and items...
 
-        for (item in itemTypes) {
+        for (item in Game.ITEM_TYPES) {
             var xCopy = x;
 
             contents.push(new Selectable(

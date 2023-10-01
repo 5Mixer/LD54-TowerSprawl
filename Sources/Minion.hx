@@ -10,6 +10,7 @@ enum MinionState {
     Idle;
     Walking(targetState: MinionState);
     StoringItem;
+    RetrievingItem(item: ItemType);
     CompletingTask;
 }
 
@@ -45,7 +46,7 @@ class Minion {
         );
 
         if (heldItem != null) {
-            heldItem.render(g, pos.x, pos.y - Game.TILE_SIZE);
+            Game.ITEM_TYPES.get(heldItem).render(g, pos.x, pos.y - Game.TILE_SIZE);
         }
 
         g.color = Color.fromBytes(59, 25, 21);
@@ -69,8 +70,11 @@ class Minion {
         }
     }
 
-    function nearestBox(map: TileMap) {
-        var boxes = map.getItems().filter((item) -> item.item.name == "Box");
+    function nearestBox(map: TileMap, filter: Box -> Bool): Box {
+        var boxes = map.getItems()
+            .filter(item -> item.item.type == ItemType.Box)
+            .map(item -> cast(item, Box))
+            .filter(box -> filter(box));
         
         var nearestBox = null;
         var minDistance = Math.POSITIVE_INFINITY;
@@ -103,7 +107,7 @@ class Minion {
         switch (state) {
             case Sleep: {}
             case Idle: {
-                if (food < maxFood - 20 && heldItem != null && heldItem.name == "Mushroom") {
+                if (food < maxFood - 20 && heldItem != null && heldItem == ItemType.Mushroom) {
                     heldItem = null;
                     food += 20;
                 }
@@ -111,11 +115,25 @@ class Minion {
                     state = Walking(StoringItem);
                     return;
                 }
-                if (task != null && heldItem == null) state = Walking(CompletingTask);
+                if (task != null && heldItem == null) {
+                    state = Walking(CompletingTask);
+                    return;
+                }
+                if (food < maxFood - 20) {
+                    state = Walking(RetrievingItem(ItemType.Mushroom));
+                }
             }
             case StoringItem: {
-                (cast(nearestBox(map), Box)).addItem(heldItem);
+                nearestBox(map, (_) -> true).addItem(heldItem);
                 heldItem = null;
+                state = Idle;
+            }
+            case RetrievingItem(item): {
+                var box = nearestBox(map, (box) -> box.contents.contains(item));
+                if (box != null) {
+                    heldItem = item;
+                    box.contents.remove(item);
+                }
                 state = Idle;
             }
             case Walking(targetState): {
@@ -123,7 +141,15 @@ class Minion {
                     case Sleep: walkTo(bedPosition, map, () -> { state = targetState; });
                     case CompletingTask: walkTo(task.item.pos, map, () -> { state = targetState; });
                     case StoringItem: {
-                        var box = nearestBox(map);
+                        var box = nearestBox(map, (_) -> true);
+                        if (box != null) {
+                            walkTo(box.pos, map, () -> { state = targetState; });
+                        } else {
+                            state = Idle;
+                        }
+                    }
+                    case RetrievingItem(item): {
+                        var box = nearestBox(map, (box) -> box.contents.contains(item));
                         if (box != null) {
                             walkTo(box.pos, map, () -> { state = targetState; });
                         } else {
