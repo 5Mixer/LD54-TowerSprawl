@@ -83,7 +83,11 @@ class PlacementBar {
                     }
                     case Item(item): {
                         if (item.canBePlacedAtMap(map, mapPos.x, mapPos.y)) {
-                            map.addItem(new PlacedItem(item, mapPos));
+                            var placedItem = switch(item.name) {
+                                case "Mushroom": new MushroomFarm(item, mapPos);
+                                default: new PlacedItem(item, mapPos);
+                            }
+                            map.addItem(placedItem);
                             onPlacementCallback(pickedUpItem.contents, mapPos);
                         }
                     }

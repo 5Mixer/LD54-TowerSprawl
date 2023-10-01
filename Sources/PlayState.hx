@@ -39,7 +39,8 @@ class PlayState extends State {
                         map.get(where.x, where.y+1) == Wall && map.get(where.x+1, where.y+1) == Wall && // Space below bed must be wall
                         map.get(where.x, where.y-1) == Interior && map.get(where.x+1, where.y-1) == Interior; // Space above bed must be interior
                 }),
-            new ItemType("Lamp",         new Vector2i(2, 4), new Vector2i(1, 1))
+            new ItemType("Lamp",         new Vector2i(2, 4), new Vector2i(1, 1)),
+            new ItemType("Mushroom",     new Vector2i(2, 7), new Vector2i(1, 1))
         ];
 
         constructLevel();
@@ -102,6 +103,7 @@ class PlayState extends State {
     override public function update() {
         placementBar.update();
         for (minion in minions) minion.update(map);
+        for (item in map.getItems()) item.update();
 
         timeOfDay = Std.int(tick/10) % 256;
         var previouslyDayTime = dayTime;

@@ -1,7 +1,9 @@
-# Currently: Smooth minion walking
+# Currently: Adding mushroom farms
 
 # Log
 # Sunday
+*2:00pm* - Did a huge clean, had a guest over, had lunch, enjoyed the weather for awhile. Back at it now!
+
 *10:25am* - Smooth walking minions in, awesome. Interesting bug where pathfinding would cut corners, as the map position, rounded off from the player position, would jump ahead of where the player appeared. Taking a break for some chores, then I think I'll work on some more entities/items for the minions to operate.
 
 *10:05am* - Bed constraint finally in, and a bug where minions would spawn despite invalid bed placement fixed. On to smooth movement.

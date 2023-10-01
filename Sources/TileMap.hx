@@ -45,6 +45,10 @@ class TileMap {
         items.push(item);
     }
 
+    public function getItems() {
+        return items;
+    }
+
     public function pathfind(start: Vector2i, finish: Vector2i) {
         var openForExploration = [start];
         var reversePathways = new Map<Int, Vector2i>();

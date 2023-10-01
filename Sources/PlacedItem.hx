@@ -15,4 +15,8 @@ class PlacedItem {
     public function render(g: Graphics) {
         item.render(g, pos.x, pos.y);
     }
+
+    public function update() {
+        
+    }
 }
