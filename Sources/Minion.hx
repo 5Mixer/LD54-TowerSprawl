@@ -107,20 +107,24 @@ class Minion {
         switch (state) {
             case Sleep: {}
             case Idle: {
-                if (food < maxFood - 20 && heldItem != null && heldItem == ItemType.Mushroom) {
+                // Eat held muchrooms if hungry
+                if (food <= maxFood - 20 && heldItem != null && heldItem == ItemType.Mushroom) {
                     heldItem = null;
                     food += 20;
                 }
+                // Store held items
                 if (heldItem != null) {
                     state = Walking(StoringItem);
                     return;
                 }
+                // Get food if hungry
+                if (food < maxFood - 20) {
+                    state = Walking(RetrievingItem(Mushroom));
+                }
+                // Do any tasks
                 if (task != null && heldItem == null) {
                     state = Walking(CompletingTask);
                     return;
-                }
-                if (food < maxFood - 20) {
-                    state = Walking(RetrievingItem(ItemType.Mushroom));
                 }
             }
             case StoringItem: {

@@ -113,22 +113,33 @@ class PlayState extends State {
         var freeTasks = [];
         
         for (item in map.getItems()) {
-            freeTasks = freeTasks.concat(item.getTasks());//.filter((task) -> getTaskOwner(task) == null));
+            freeTasks = freeTasks.concat(item.getTasks());
         }
 
         // Every task should be assigned to the minion closest to it.
         // Can't just loop through tasks and assign nearest minion, as that task may be the furthest - eg:
         // T1 T2 T3            Minion
         // A simple loop pairs (T1, Minion) when (T3, Minion) is best.
-        var freeMinions = minions.filter(minion -> minion.heldItem == null && (minion.state.match(Idle) || minion.state.match(Walking(_)))); //.copy();//.filter((minion) -> minion.task == null);
+        var freeMinions = minions.filter(minion ->
+            minion.heldItem == null && // If they're carrying something, don't interrupt them, they need to put it down
+            (!minion.state.match(Walking(RetrievingItem(ItemType.Mushroom)))) && // Hungry minions shouldn't be interrupted
+            !(minion?.task?.type == Harvest && minion.food < minion.maxFood/2) && // Allow hungry minions to focus on harvesting
+            (minion.state.match(Idle) || minion.state.match(Walking(_))) // Minions should be idle or walking (besides above case)
+        );
+        
         while (freeTasks.length > 0 && freeMinions.length > 0){
-            var bestPair: { minion: Minion, task:Task } = null;
+            var bestPair: { minion: Minion, task: Task } = null;
             var bestDistance = Math.POSITIVE_INFINITY;
             for (task in freeTasks) {
                 for (minion in freeMinions) {
                     var path = map.pathfind(task.item.getPathFindTarget(), minion.mapPos);
                     if (path == null) continue;
                     var distance = path.length;
+
+                    if (task.type != Harvest) {
+                        distance += minion.maxFood - minion.food; // Bias minions towards harvesting, depending on their hunger
+                    }
+
                     if (distance < bestDistance && distance > 0) {
                         bestDistance = distance;
                         bestPair = { minion: minion, task: task };
