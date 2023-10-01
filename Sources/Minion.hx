@@ -9,6 +9,7 @@ enum MinionState {
     Sleep;
     Idle;
     Walking(targetState: MinionState);
+    StoringItem;
     CompletingTask;
 }
 
@@ -44,7 +45,7 @@ class Minion {
         );
 
         if (heldItem != null) {
-            heldItem.render(g, mapPos.x, mapPos.y - 1);
+            heldItem.render(g, pos.x, pos.y - Game.TILE_SIZE);
         }
 
         g.color = Color.fromBytes(59, 25, 21);
@@ -68,6 +69,23 @@ class Minion {
         }
     }
 
+    function nearestBox(map: TileMap) {
+        var boxes = map.getItems().filter((item) -> item.item.name == "Box");
+        
+        var nearestBox = null;
+        var minDistance = Math.POSITIVE_INFINITY;
+        for (box in boxes) {
+            var path = map.pathfind(box.pos, mapPos);
+            if (path == null) continue;
+            var distance = path.length;
+            if (distance < minDistance && distance > 0) {
+                minDistance = distance;
+                nearestBox = box;
+            }
+        }
+        return nearestBox;
+    }
+
     public function update(map: TileMap) {
         tick++;
         if (tick % 30 == 0) {
@@ -85,16 +103,33 @@ class Minion {
         switch (state) {
             case Sleep: {}
             case Idle: {
-                if (food < maxFood - 20 && heldItem.name == "Mushroom") {
+                if (food < maxFood - 20 && heldItem != null && heldItem.name == "Mushroom") {
                     heldItem = null;
                     food += 20;
                 }
+                if (heldItem != null) {
+                    state = Walking(StoringItem);
+                    return;
+                }
                 if (task != null && heldItem == null) state = Walking(CompletingTask);
+            }
+            case StoringItem: {
+                (cast(nearestBox(map), Box)).addItem(heldItem);
+                heldItem = null;
+                state = Idle;
             }
             case Walking(targetState): {
                 switch(targetState) {
                     case Sleep: walkTo(bedPosition, map, () -> { state = targetState; });
                     case CompletingTask: walkTo(task.item.pos, map, () -> { state = targetState; });
+                    case StoringItem: {
+                        var box = nearestBox(map);
+                        if (box != null) {
+                            walkTo(box.pos, map, () -> { state = targetState; });
+                        } else {
+                            state = Idle;
+                        }
+                    }
                     default: { state = targetState; };
                 }
             }

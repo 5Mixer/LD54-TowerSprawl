@@ -47,7 +47,7 @@ class PlacementBar {
                 case Item(item): {
                     var validPlacement = item.canBePlacedAtMap(map, mapPos.x, mapPos.y);
                     g.color = validPlacement ? Game.VALID_TINT : Game.INVALID_TINT;
-                    item.render(g, mapPos.x, mapPos.y);
+                    item.render(g, mapPos.x * Game.TILE_SIZE, mapPos.y * Game.TILE_SIZE);
                     g.color = kha.Color.White;
                 }
             }
@@ -85,6 +85,7 @@ class PlacementBar {
                         if (item.canBePlacedAtMap(map, mapPos.x, mapPos.y)) {
                             var placedItem = switch(item.name) {
                                 case "Mushroom": new MushroomFarm(item, mapPos);
+                                case "Box": new Box(item, mapPos);
                                 default: new PlacedItem(item, mapPos);
                             }
                             map.addItem(placedItem);
@@ -132,7 +133,7 @@ class PlacementBar {
                 new Vector2i(x, y),
                 new Vector2i(item.spriteSheetSize.x * Game.TILE_SIZE, item.spriteSheetSize.y * Game.TILE_SIZE),
                 () -> {},
-                (g) -> { item.render(g, Std.int(xCopy/Game.TILE_SIZE), Std.int(y/Game.TILE_SIZE)); },
+                (g) -> { item.render(g, xCopy, y); },
                 SelectableContents.Item(item)
             ));
 

@@ -23,8 +23,8 @@ class ItemType {
     public function render(g: Graphics, x: Int, y: Int) {
         g.drawSubImage(
             kha.Assets.images.spritesheet,
-            x * Game.TILE_SIZE,
-            y * Game.TILE_SIZE,
+            x,
+            y,
             spriteSheetPos.x * Game.TILE_SIZE,
             spriteSheetPos.y * Game.TILE_SIZE,
             spriteSheetSize.x * Game.TILE_SIZE,

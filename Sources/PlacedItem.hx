@@ -13,7 +13,7 @@ class PlacedItem {
     }
 
     public function render(g: Graphics) {
-        item.render(g, pos.x, pos.y);
+        item.render(g, pos.x * Game.TILE_SIZE, pos.y * Game.TILE_SIZE);
     }
 
     public function update() {

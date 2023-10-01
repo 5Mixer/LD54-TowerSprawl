@@ -40,7 +40,13 @@ class PlayState extends State {
                         map.get(where.x, where.y-1) == Interior && map.get(where.x+1, where.y-1) == Interior; // Space above bed must be interior
                 }),
             new ItemType("Lamp",         new Vector2i(2, 4), new Vector2i(1, 1)),
-            new ItemType("Mushroom",     new Vector2i(0, 6), new Vector2i(1, 1))
+            new ItemType("Mushroom",     new Vector2i(0, 6), new Vector2i(1, 1)),
+            new ItemType("Box",          new Vector2i(0, 9), new Vector2i(1, 1),
+                function isBedLocationSuitable(where) {
+                    return
+                        map.get(where.x, where.y+1) == Wall && // Space below box must be wall
+                        map.get(where.x, where.y-1) == Interior; // Space above box must be interior
+                })
         ];
 
         constructLevel();
