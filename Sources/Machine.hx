@@ -12,7 +12,7 @@ class Machine extends PlacedItem {
     override public function update() {
         tick++;
 
-        if (generatedItem == null && tick % 60 == 0) {
+        if (generatedItem == null && tick % 600 == 0) {
             generatedItem = ItemType.Wall;
 
             collectionTask = new Task(Collect, this, (minion) -> {
@@ -20,6 +20,7 @@ class Machine extends PlacedItem {
                 generatedItem = null;
                 collectionTask.complete();
                 collectionTask = null;
+                tick = 0;
             });
         }
     }

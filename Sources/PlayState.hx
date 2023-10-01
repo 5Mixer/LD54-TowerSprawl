@@ -33,7 +33,7 @@ class PlayState extends State {
         skyImageBytes = skyImage.getPixels();
         #end
 
-        var originRoom = new PlacedRoom(rooms[1], new Vector2i(40, 30));
+        var originRoom = new PlacedRoom(rooms[1], new Vector2i(20, 20));
         originRoom.stamp(map, true);
 
         // constructLevel();

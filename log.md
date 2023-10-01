@@ -2,6 +2,8 @@
 
 # Log
 # Sunday
+*12:00* - Ooh, programming this late was a very bad idea. Doubly so going anywhere near camera transformations and the UI. Spent ages going down terrible routes trying to keep input working when the camera moved, final solution not terrible, though not great, but much better than the hacks I was trying. I have a weird system demo, not a game, but I'm reasonably proud of it and it's time to publish.
+
 *10:50pm* - Minions turn temporary rooms into real rooms by walking walls to them. So so satisfying. I think my final goals for the night are
 - camera
 - tile by tile placement
