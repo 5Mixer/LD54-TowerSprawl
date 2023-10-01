@@ -75,7 +75,26 @@ class PlacementBar {
                 switch (pickedUpItem.contents) {
                     case Room(room): {
                         if (room.canBePlacedAtMap(map, mapPos.x, mapPos.y)) {
-                            room.stampOnMap(map, mapPos.x, mapPos.y, false);
+                            var placedRoom = new PlacedRoom(room, mapPos, null);
+                            placedRoom.stamp(map, false);
+                            
+                            var buildTasks: Array<Task> = [];
+                            for (doorPosition in placedRoom.getDoorPositions()) {
+                                buildTasks.push(new Task(
+                                    Build,
+                                    placedRoom.withPathfindingTarget(doorPosition),
+                                    (minion) -> {
+                                        minion.heldItem = null;
+                                        placedRoom.stamp(map, true);
+                                        minion.task.complete();
+                                        for (task in buildTasks) {
+                                            task.complete();
+                                        }
+                                    }
+                                ));
+                            }
+                            map.buildTasks = map.buildTasks.concat(buildTasks);
+
                             onPlacementCallback(pickedUpItem.contents, mapPos);
                         }
                     }

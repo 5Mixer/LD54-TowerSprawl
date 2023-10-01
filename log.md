@@ -2,6 +2,8 @@
 
 # Log
 # Sunday
+*10:10pm* - Planned tiles down. I changed the Tile enum to a TileMap enum which includes a 'real' flag. The abstraction of a TileMap made modifying the related systems mostly pain free, fortunately. Now I just need to make minions know that there is a related task, so the non-real rooms can become real.
+
 *9:40* - Alright, this seems non-trivial.
 
 - RoomPlan is a PlacedItem, which generates a task per tile that it needs.

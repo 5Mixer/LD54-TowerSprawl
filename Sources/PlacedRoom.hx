@@ -2,13 +2,14 @@ package ;
 
 import kha.math.Vector2i;
 
-class PlacedRoom {
+class PlacedRoom extends PlacedItem {
     var roomTemplate: Room;
-    var pos: Vector2i;
+    var pathfindTarget: Vector2i;
 
-    public function new(roomTemplate: Room, pos: Vector2i) {
+    public function new(roomTemplate: Room, pos: Vector2i, pathfindTarget: Vector2i = null) {
+        super(null, pos);
         this.roomTemplate = roomTemplate;
-        this.pos = pos;
+        this.pathfindTarget = pathfindTarget;
     }
 
     public function stamp(map: TileMap, real = false) {
@@ -17,5 +18,13 @@ class PlacedRoom {
 
     public function getDoorPositions() {
         return roomTemplate.getDoors().map(doorTile -> new Vector2i(pos.x + doorTile.x, pos.y + doorTile.y));
+    }
+
+    public function withPathfindingTarget(target: Vector2i) {
+        return new PlacedRoom(roomTemplate, pos, target);
+    }
+
+    override public function getPathFindTarget() {
+        return pathfindTarget;
     }
 }

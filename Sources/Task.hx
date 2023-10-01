@@ -3,6 +3,7 @@ package ;
 enum TaskType {
     Harvest;
     Collect;
+    Build;
 }
 
 class Task {

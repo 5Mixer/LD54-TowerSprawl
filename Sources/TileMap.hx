@@ -13,6 +13,7 @@ class TileMap {
     var items = new Array<PlacedItem>();
     var width = 300;
     var height = 1000;
+    public var buildTasks = new Array<Task>();
 
     public function new() {
         for (y in 0...height) {
@@ -35,6 +36,11 @@ class TileMap {
         for (item in items) {
             item.render(g);
         }
+    }
+
+    public function getBuildTasks() {
+        buildTasks = buildTasks.filter(task -> !task.isComplete);
+        return buildTasks;
     }
 
     public function set(x: Int, y: Int, tile: Tile, real = true) {

@@ -112,8 +112,8 @@ class Minion {
                     heldItem = null;
                     food += 20;
                 }
-                // Store held items
-                if (heldItem != null) {
+                // Store held mushrooms
+                if (heldItem == Mushroom) {
                     state = Walking(StoringItem);
                     return;
                 }
@@ -122,8 +122,13 @@ class Minion {
                     state = Walking(RetrievingItem(Mushroom));
                 }
                 // Do any tasks
-                if (task != null && heldItem == null) {
+                if (task != null) {
                     state = Walking(CompletingTask);
+                    return;
+                }
+                // Store other items, like walls (give building priority)
+                if (heldItem != null) {
+                    state = Walking(StoringItem);
                     return;
                 }
             }
