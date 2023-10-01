@@ -1,5 +1,6 @@
 package ;
 
+import kha.input.Keyboard;
 import kha.Color;
 import kha.Image;
 import haxe.io.Bytes;
@@ -85,8 +86,9 @@ class PlayState extends State {
         Camera.transform(g);
 
         map.render(g);
-        placementBar.render(g);
         for (minion in minions) minion.render(g);
+
+        placementBar.render(g);
 
         g.transformation = FastMatrix3.identity();
         g.end();
@@ -99,6 +101,7 @@ class PlayState extends State {
 
     override public function update() {
         placementBar.update();
+
         updateDayTime();
         assignMinionTasks();        
 
@@ -107,7 +110,8 @@ class PlayState extends State {
         for (item in map.getItems()) item.update();
 
         if (MouseState.isMiddleButtonDown) {
-            Camera.position = Camera.position.add(MouseState.delta.mult(-1).div(Camera.scale));
+            Camera.position.x = Std.int(Camera.position.x - (MouseState.delta.x/2));
+            Camera.position.y = Std.int(Camera.position.y - (MouseState.delta.y/2));
         }
 
         tick++;

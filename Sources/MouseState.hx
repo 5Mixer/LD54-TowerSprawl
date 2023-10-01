@@ -1,6 +1,7 @@
 package ;
 
 import kha.math.Vector2i;
+import kha.math.Vector2;
 import kha.input.Mouse;
 
 class MouseState {
@@ -12,7 +13,7 @@ class MouseState {
     public static var rightButtonJustDown = false; 
     static var wasLeftButtonDown = false; 
     static var wasRightButtonDown = false;
-    public static var delta = new Vector2i();
+    public static var delta = new Vector2();
 
     public static function setup() {
         Mouse.get().notify(onMouseDown, onMouseUp, onMouseMove);
@@ -50,9 +51,11 @@ class MouseState {
     }
 
     static function onMouseMove(x: Int, y: Int, dx: Int, dy: Int) {
+        delta.x = x - pos.x;
+        delta.y = y - pos.y;
         pos.x = x;
         pos.y = y;
-        delta.x = dx;
-        delta.y = dy;
+        // delta.x = dx;
+        // delta.y = dy;
     }
 }

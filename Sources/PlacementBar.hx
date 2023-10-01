@@ -24,8 +24,10 @@ class PlacementBar {
     }
 
     public function render(g: Graphics) {
+        var contents = getContents();
         g.color = kha.Color.fromBytes(216, 227, 224);
-        g.fillRect(position.x, position.y, getWidth(), getHeight());
+        var screenCorner = Camera.transformToWorldSpace(new Vector2i());
+        g.fillRect(screenCorner.x, screenCorner.y, getWidth(), getHeight());
         g.color = kha.Color.White;
 
         for (item in getContents()) {
@@ -49,7 +51,6 @@ class PlacementBar {
                     g.color = kha.Color.White;
                 }
             }
-            
         }
     }
 
@@ -128,8 +129,10 @@ class PlacementBar {
 
     public function getContents() {
         var contents = [];
-        var x = contentPadding;
-        var y = contentPadding;
+        var x = Std.int(Camera.transformToWorldSpace(new Vector2i()).x);
+        var y = Std.int(Camera.transformToWorldSpace(new Vector2i()).y);
+        x += Game.PREVIEW_TILE_SIZE;
+        y += Game.PREVIEW_TILE_SIZE;
         for (room in rooms) {
             var xCopy = x;
             contents.push(new Selectable(

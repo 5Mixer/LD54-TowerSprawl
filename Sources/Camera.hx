@@ -16,10 +16,15 @@ class Camera {
     }
     
     static function getTransformation() {
+        position.x = Std.int(position.x/8)*8;
+        position.y = Std.int(position.y/8)*8;
         return FastMatrix3.scale(scale, scale).multmat(FastMatrix3.translation(-position.x, -position.y));
     }
 
     public static function transformToWorldSpace(point: Vector2i) {
         return getTransformation().inverse().multvec(new FastVector2(point.x, point.y));
+    }
+    public static function transformFromWorldSpace(point: Vector2i) {
+        return getTransformation().multvec(new FastVector2(point.x, point.y));
     }
 }
