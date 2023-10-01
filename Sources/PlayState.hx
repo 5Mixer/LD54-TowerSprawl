@@ -107,11 +107,23 @@ class PlayState extends State {
 
     override public function update() {
         placementBar.update();
-        
+        updateDayTime();
+        assignMinionTasks();        
+
+        for (minion in minions) minion.update(map);
+        minions = minions.filter(minion -> minion.alive);
+        for (item in map.getItems()) item.update();
+
+        tick++;
+    }
+
+    function assignMinionTasks() {
         var freeTasks = [];
+        
         for (item in map.getItems()) {
             freeTasks = freeTasks.concat(item.getTasks().filter((task) -> getTaskOwner(task) == null));
         }
+
         for (task in freeTasks) {
             var freeMinions = minions.filter((minion) -> minion.task == null);
             if (freeMinions.length == 0) break;
@@ -132,22 +144,28 @@ class PlayState extends State {
                 nearestMinion.task = task;
             }
         }
+    }
 
-        for (minion in minions) minion.update(map);
-        for (item in map.getItems()) item.update();
-
+    function updateDayTime() {
         timeOfDay = Std.int(tick/10) % 256;
         var previouslyDayTime = dayTime;
         dayTime = timeOfDay > 8 * Game.TILE_SIZE && timeOfDay < 31 * Game.TILE_SIZE;
         if (previouslyDayTime != dayTime) {
             var cursorMapPos = new Vector2i(Std.int(MouseState.worldPos().x / Game.TILE_SIZE), Std.int(MouseState.worldPos().y / Game.TILE_SIZE));
             switch(dayTime) {
-                case true: for (minion in minions) if (minion.state == Sleep) { minion.state = Idle; minion.task = null; }
-                case false: for (minion in minions) minion.state = Walking(Sleep);
+                case true: {
+                    for (minion in minions) {
+                        if (minion.state == Sleep) {
+                            minion.state = Idle;
+                            minion.task = null;
+                        }
+                    }
+                }
+                case false: {
+                    for (minion in minions) minion.state = Walking(Sleep);
+                }
             }
         }
-
-        tick++;
     }
 
     function onPlacement(placed: SelectableContents, pos: Vector2i) {

@@ -1,7 +1,13 @@
-# Currently: Adding automated mushroom farming
+# Currently: Adding minion hunger
 
 # Log
 # Sunday
+*4:45pm* - Lots of bug hunting later and mushroom harvesting is looking pretty good. I created a task system, items register that they have tasks to do, minions that don't have tasks are assigned a task and run to the item to do it. I had some bugs around bidirectional references (tasks to minions, minions to tasks) going out of sync. I knew it was a possibility when I setup the references, it was silly to try anyway. I've resorted to a single direction (minions own a task) and search when necessary - in reality, computers are fast, looping through the full set of minions is hardly going to blow my perf budget.
+
+There's lots to do but I'm not sure where to go. The mushrooms have to have a purpose, so I think I'll add minion hunger, which is sated when they harvest a mushroom. No hunger and they explode. The bed then doesn't have an occupier, which perhaps is fine? I just need to make it obvious that the minion died, the player shouldn't be confused if it happens off screen etc. Maybe minions have names, and when one dies, it leaves a pile of bones that can be hovered over to see the name? Rather macabre but could be informative.
+
+I don't like UI work but yep, think I'm going to add hunger and hunger UI to minions.
+
 *2:35pm* - Have added mushroom farms, with simple growth and three visual variants. Increasingly eager to go wild with a lighting system, but for now harvesting is more important. Once minions harvest mushrooms, they'll just eat/destroy them. Later I'll think about kitchens and food storage. Random idea I had before - newly spawned minions are mini-minions, which don't do anything but eat for a certain duration, to help prevent spamming beds/minions down.
 
 *2:00pm* - Did a huge clean, had a guest over, had lunch, enjoyed the weather for awhile. Back at it now!

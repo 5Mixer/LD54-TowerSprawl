@@ -3,6 +3,7 @@ package ;
 import kha.Assets;
 import kha.graphics2.Graphics;
 import kha.math.Vector2i;
+import kha.Color;
 
 enum MinionState {
     Sleep;
@@ -17,8 +18,12 @@ class Minion {
     public var state: MinionState = Idle;
     public var bedPosition: Vector2i;
     public var task: Task;
+    public var food: Int = 100;
+    public var maxFood: Int = 100;
+    public var alive = true;
 
     var speed = 1;
+    var tick = 0;
     public var mapPos: Vector2i; // Decoupled from pos as rounding/flooring jumps ahead during path finding
 
     public function new(pos: Vector2i) {
@@ -37,6 +42,11 @@ class Minion {
             Game.TILE_SIZE,
             Game.TILE_SIZE
         );
+        g.color = Color.fromBytes(59, 25, 21);
+        g.fillRect(pos.x, pos.y - 2, Game.TILE_SIZE, 1);
+        g.color = Color.fromBytes(178, 78, 78);
+        g.fillRect(pos.x, pos.y - 2, Math.ceil(food / maxFood * Game.TILE_SIZE), 1);
+        g.color = Color.White;
     }
 
     function walkTo(destination: Vector2i, map: TileMap, onArrival: () -> Void) {
@@ -54,6 +64,19 @@ class Minion {
     }
 
     public function update(map: TileMap) {
+        tick++;
+        if (tick % 30 == 0) {
+            switch (state) {
+                case Sleep: {};
+                case Idle:  food -= 1;
+                default:    food -= 2;
+            }
+            if (food <= 0) {
+                alive = false;
+                return;
+            }
+        }
+
         switch (state) {
             case Sleep: {}
             case Idle: { if (task != null) state = Walking(CompletingTask); }
