@@ -1,7 +1,14 @@
-# Currently: minion building rooms & camera.
+# Currently: minions building rooms & camera.
 
 # Log
 # Sunday
+*9:40* - Alright, this seems non-trivial.
+
+- RoomPlan is a PlacedItem, which generates a task per tile that it needs.
+- As it receives tiles, the room becomes more and more real
+- But RoomPlans should not overlap
+- Should you be able to build RoomPlans off RoomPlans?
+
 *9:30* - Added a bias towards harvesting depending on hunger, and it's very fun to watch. It's still possible for them to starve when they could survive, if they start heading towards a box to get a mushroom when mushrooms are closer, but it's quite good. Crikey the time is getting on, I don't want to be tired at work. Will see if I can get minions building rooms in, and camera movement.
 
 *9:05* - Implemented the first dot point below, and made it so that minions will change task if a better task arises during their walk to their current task. This makes it immensely satisfying to watch, very much worth the time. Crazy how aesthetic something so buried in the AI is. Though minions still sometimes starve, if their closest task is machining, so not perfect haha. Onto that, then resuming my todo list of minions building rooms.

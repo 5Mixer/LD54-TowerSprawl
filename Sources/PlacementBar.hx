@@ -75,7 +75,7 @@ class PlacementBar {
                 switch (pickedUpItem.contents) {
                     case Room(room): {
                         if (room.canBePlacedAtMap(map, mapPos.x, mapPos.y)) {
-                            room.stampOnMap(map, mapPos.x, mapPos.y);
+                            room.stampOnMap(map, mapPos.x, mapPos.y, false);
                             onPlacementCallback(pickedUpItem.contents, mapPos);
                         }
                     }

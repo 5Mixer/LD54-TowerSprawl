@@ -11,8 +11,8 @@ class PlacedRoom {
         this.pos = pos;
     }
 
-    public function stamp(map: TileMap) {
-        roomTemplate.stampOnMap(map, pos.x, pos.y);
+    public function stamp(map: TileMap, real = false) {
+        roomTemplate.stampOnMap(map, pos.x, pos.y, real);
     }
 
     public function getDoorPositions() {

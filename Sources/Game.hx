@@ -1,6 +1,7 @@
 package;
 
 import kha.math.Vector2i;
+import Tile;
 
 class Game {
     private function new() {}

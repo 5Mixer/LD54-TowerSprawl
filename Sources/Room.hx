@@ -60,11 +60,11 @@ class Room {
         g.color = Color.White;
     }
 
-    public function stampOnMap(map: TileMap, x: Int, y: Int) {
+    public function stampOnMap(map: TileMap, x: Int, y: Int, real = false) {
         for (tile in tiles) {
             var existingTile = map.get(x + tile.x, y + tile.y);
             if (tile.tile != Tile.Air && !(existingTile == Tile.Wall && tile.tile == Tile.Door))
-                map.set(x + tile.x, y + tile.y, tile.tile);
+                map.set(x + tile.x, y + tile.y, tile.tile, real);
         }
     }
 
@@ -73,7 +73,7 @@ class Room {
         for (tile in tiles) {
             if (tile.tile == Tile.Air || tile.tile == Tile.Door) continue;
 
-            var existingTile = map.get(x + tile.x, y + tile.y);
+            var existingTile = map.get(x + tile.x, y + tile.y, false);
             if (existingTile == Tile.Air || existingTile == Tile.Door) continue;
             
             if (existingTile != tile.tile) {
@@ -83,7 +83,7 @@ class Room {
 
         // A door should overlap between the rooms
         for (door in getDoors()) {
-            if (map.get(door.x + x, door.y + y) == Tile.Door) {
+            if (map.get(door.x + x, door.y + y, false) == Tile.Door) {
                 return true;
             }
         }

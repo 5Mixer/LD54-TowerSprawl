@@ -33,7 +33,7 @@ class PlayState extends State {
         #end
 
         var originRoom = new PlacedRoom(rooms[1], new Vector2i(40, 30));
-        originRoom.stamp(map);
+        originRoom.stamp(map, true);
 
         // constructLevel();
         

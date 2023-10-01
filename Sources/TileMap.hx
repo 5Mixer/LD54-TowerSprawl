@@ -2,13 +2,14 @@ package ;
 
 import kha.math.Vector2i;
 import kha.Assets;
+import kha.Color;
 import kha.graphics2.Graphics;
 using GraphicsExtension;
 using Tile;
 using VectorExtension;
 
 class TileMap {
-    var tiles = new Array<Tile>();
+    var tiles = new Array<MapTile>();
     var items = new Array<PlacedItem>();
     var width = 300;
     var height = 1000;
@@ -16,7 +17,7 @@ class TileMap {
     public function new() {
         for (y in 0...height) {
             for (x in 0...width) {
-                tiles.push(Tile.Air);
+                tiles.push(new MapTile(Air));
             }
         }
     }
@@ -24,21 +25,32 @@ class TileMap {
     public function render(g: Graphics) {
         for (y in 0...height) {
             for (x in 0...width) {
-                if (get(x, y) != Tile.Air)
-                    g.drawTile(get(x, y), x, y);
+                if (get(x, y, false) != Tile.Air) {
+                    g.color = tiles[y * width + x].real ? Color.White : Color.fromBytes(255, 255, 255, 100);
+                    g.drawTile(get(x, y, false), x, y);
+                }
             }
         }
+        g.color = Color.White;
         for (item in items) {
             item.render(g);
         }
     }
 
-    public function set(x: Int, y: Int, tile: Tile) {
-        tiles[y * width + x] = tile;
+    public function set(x: Int, y: Int, tile: Tile, real = true) {
+        if (get(x, y, true) == tile) return; // Don't replace something real with a planned tile
+        tiles[y * width + x] = new MapTile(tile, real);
     }
     
-    public function get(x: Int, y: Int) {
-        return tiles[y * width + x];
+    // Could optimise out the boolean into two functions
+    public function get(x: Int, y: Int, requireReal = true) {
+        if (x < 0 || y < 0 || x > width || y > height) return Air;
+
+        var tile = tiles[y * width + x];
+        if (requireReal) {
+            return tile.real ? tile.tile : Air;
+        }
+        return tile.tile;
     }
 
     public function addItem(item: PlacedItem) {
