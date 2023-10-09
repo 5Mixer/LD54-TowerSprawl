@@ -1,3 +1,3 @@
-[submodule "Kha/Kha"]
-	path = Kha/Kha
-	url = https://github.com/Kode/Kha
+[submodule "Kha"]
+	path = Kha
+	url = https://github.com/Kode/Kha.git
