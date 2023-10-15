@@ -17,7 +17,12 @@ class Game {
                     map.get(where.x, where.y-1) == Interior && map.get(where.x+1, where.y-1) == Interior; // Space above bed must be interior
             }),
         ItemType.Lamp => new ItemDefinition(Lamp, new Vector2i(2, 4), new Vector2i(1, 1), true),
-        ItemType.Mushroom => new ItemDefinition(Mushroom, new Vector2i(0, 6), new Vector2i(1, 1), true),
+        ItemType.Mushroom => new ItemDefinition(Mushroom, new Vector2i(0, 6), new Vector2i(1, 1), true,
+            function isMushroomLocationSuitable(where, map) {
+                return
+                    map.get(where.x, where.y+1) == Wall && // Space below mushroom must be wall
+                    map.get(where.x, where.y-1) == Interior; // Space above mushroom must be interior
+            }),
         ItemType.Box => new ItemDefinition(Box, new Vector2i(0, 9), new Vector2i(1, 1), true,
             function isBoxLocationSuitable(where, map) {
                 return
