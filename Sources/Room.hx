@@ -18,7 +18,7 @@ class PositionedTile {
 }
 
 class Room {
-    var tiles: Array<PositionedTile> = [];
+    public var tiles: Array<PositionedTile> = [];
     public var maxWidth: Int;
     public var maxHeight: Int;
 

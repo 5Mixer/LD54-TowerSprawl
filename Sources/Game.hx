@@ -32,7 +32,7 @@ class Game {
         ItemType.Machine => new ItemDefinition(Machine, new Vector2i(0, 10), new Vector2i(3, 2), true,
             function isMachineLocationSuitable(where, map) {
                 return
-                    map.get(where.x, where.y+2) == Wall && // Space below box must be wall
+                    map.get(where.x, where.y+2) == Wall && // Space below machine must be wall
                     map.get(where.x+1, where.y+2) == Wall &&
                     map.get(where.x+2, where.y+2) == Wall;
             }),

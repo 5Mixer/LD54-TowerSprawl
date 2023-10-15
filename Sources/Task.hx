@@ -1,5 +1,7 @@
 package ;
 
+import kha.math.Vector2i;
+
 enum TaskType {
     Harvest;
     Collect;
@@ -8,13 +10,13 @@ enum TaskType {
 
 class Task {
     public var type: TaskType;
-    public var item: PlacedItem;
+    public var locations: Array<Vector2i> = [];
     public var isComplete = false;
     public var onProgress: Minion -> Void;
 
-    public function new(type, item, onProgress: Minion -> Void) {
+    public function new(type, locations, onProgress: Minion -> Void) {
         this.type = type;
-        this.item = item;
+        this.locations = locations;
         this.onProgress = onProgress;
     }
 

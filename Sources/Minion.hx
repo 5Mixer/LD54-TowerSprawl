@@ -56,9 +56,12 @@ class Minion {
         g.color = Color.White;
     }
 
-    function walkTo(destination: Vector2i, map: TileMap, onArrival: () -> Void) {
-        var path = map.pathfind(mapPos, destination);
-        if (destination.x == mapPos.x && destination.y == mapPos.y) onArrival();
+    function walkTo(destinations: Array<Vector2i>, map: TileMap, onArrival: () -> Void) {
+        var path = map.multiPathfind(mapPos, destinations);
+        for (destination in destinations)
+            if (destination.x == mapPos.x && destination.y == mapPos.y)
+                onArrival();
+
         if (path == null) return;
         if (path.length > 0) {
             var delta = path[0].mult(Game.TILE_SIZE).sub(pos);
@@ -147,12 +150,12 @@ class Minion {
             }
             case Walking(targetState): {
                 switch(targetState) {
-                    case Sleep: walkTo(bedPosition, map, () -> { state = targetState; });
-                    case CompletingTask: walkTo(task.item.getPathFindTarget(), map, () -> { state = targetState; });
+                    case Sleep: walkTo([bedPosition], map, () -> { state = targetState; });
+                    case CompletingTask: walkTo(task.locations, map, () -> { state = targetState; });
                     case StoringItem: {
                         var box = nearestBox(map, (_) -> true);
                         if (box != null) {
-                            walkTo(box.pos, map, () -> { state = targetState; });
+                            walkTo([box.pos], map, () -> { state = targetState; });
                         } else {
                             state = Idle;
                         }
@@ -160,7 +163,7 @@ class Minion {
                     case RetrievingItem(item): {
                         var box = nearestBox(map, (box) -> box.contents.contains(item));
                         if (box != null) {
-                            walkTo(box.pos, map, () -> { state = targetState; });
+                            walkTo([box.pos], map, () -> { state = targetState; });
                         } else {
                             state = Idle;
                         }

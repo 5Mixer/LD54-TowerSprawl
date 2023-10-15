@@ -12,16 +12,20 @@ class Machine extends PlacedItem {
     override public function update() {
         tick++;
 
-        if (generatedItem == null && tick % 600 == 0) {
+        if (generatedItem == null && tick % 200 == 0) {
             generatedItem = ItemType.Wall;
 
-            collectionTask = new Task(Collect, this, (minion) -> {
-                minion.heldItem = generatedItem;
-                generatedItem = null;
-                collectionTask.complete();
-                collectionTask = null;
-                tick = 0;
-            });
+            collectionTask = new Task(
+                Collect,
+                [pos.add(new Vector2i(0, 1)), pos.add(new Vector2i(1, 1)), pos.add(new Vector2i(2, 1))],
+                (minion) -> {
+                    minion.heldItem = generatedItem;
+                    generatedItem = null;
+                    collectionTask.complete();
+                    collectionTask = null;
+                    tick = 0;
+                }
+            );
         }
     }
 

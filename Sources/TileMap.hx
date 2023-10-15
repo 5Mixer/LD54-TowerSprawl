@@ -11,9 +11,9 @@ using VectorExtension;
 class TileMap {
     var tiles = new Array<MapTile>();
     var items = new Array<PlacedItem>();
+    public var placedRooms = new Array<PlacedRoom>();
     var width = 300;
     var height = 1000;
-    public var buildTasks = new Array<Task>();
 
     public function new() {
         for (y in 0...height) {
@@ -38,11 +38,6 @@ class TileMap {
         }
     }
 
-    public function getBuildTasks() {
-        buildTasks = buildTasks.filter(task -> !task.isComplete);
-        return buildTasks;
-    }
-
     public function set(x: Int, y: Int, tile: Tile, real = true) {
         if (get(x, y, true) == tile) return; // Don't replace something real with a planned tile
         tiles[y * width + x] = new MapTile(tile, real);
@@ -65,6 +60,17 @@ class TileMap {
 
     public function getItems() {
         return items;
+    }
+
+    public function multiPathfind(start: Vector2i, finishPositions: Array<Vector2i>) {
+        var shortestPath = null;
+        for (finishPosition in finishPositions) {
+            var path = pathfind(start, finishPosition);
+            if (path != null && (shortestPath == null || shortestPath.length < path.length)) {
+                shortestPath = path;
+            }
+        }
+        return shortestPath;
     }
 
     public function pathfind(start: Vector2i, finish: Vector2i) {

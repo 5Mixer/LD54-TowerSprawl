@@ -33,7 +33,7 @@ class PlayState extends State {
         skyImageBytes = skyImage.getPixels();
         #end
 
-        var originRoom = new PlacedRoom(rooms[1], new Vector2i(20, 20));
+        var originRoom = new PlacedRoom(rooms[1], new Vector2i(20, 20), map);
         originRoom.stamp(map, true);
 
         // constructLevel();
@@ -50,7 +50,7 @@ class PlayState extends State {
     }
 
     function constructLevel() {
-        var originRoom = new PlacedRoom(rooms[1], new Vector2i(80, 50));
+        var originRoom = new PlacedRoom(rooms[1], new Vector2i(80, 50), map);
         originRoom.stamp(map);
         var placedRooms = [originRoom];
 
@@ -65,7 +65,7 @@ class PlayState extends State {
             var possiblePlacements = childRoomTemplate.attachmentsToDoor(map, parentDoor.x, parentDoor.y);
             if (possiblePlacements.length > 0) {
                 var placement = possiblePlacements[Math.floor(Math.random() * possiblePlacements.length)];
-                var childRoom = new PlacedRoom(childRoomTemplate, placement);
+                var childRoom = new PlacedRoom(childRoomTemplate, placement, map);
                 childRoom.stamp(map);
                 
                 placedRooms.push(childRoom);
@@ -118,8 +118,10 @@ class PlayState extends State {
     }
 
     function assignMinionTasks() {
-        var freeTasks = map.getBuildTasks();
-        
+        var freeTasks = [];
+        for (room in map.placedRooms) {
+            freeTasks = freeTasks.concat(room.getTasks());
+        }
         for (item in map.getItems()) {
             freeTasks = freeTasks.concat(item.getTasks());
         }
@@ -142,7 +144,7 @@ class PlayState extends State {
                 for (minion in freeMinions) {
                     if ((task.type == Build) != (minion.heldItem == Wall)) continue; // Build tasks must go to those holding walls
 
-                    var path = map.pathfind(task.item.getPathFindTarget(), minion.mapPos);
+                    var path = map.multiPathfind(minion.mapPos, task.locations);
                     if (path == null) continue;
                     var distance = path.length;
 
