@@ -58,9 +58,12 @@ class Minion {
 
     function walkTo(destinations: Array<Vector2i>, map: TileMap, onArrival: () -> Void) {
         var path = map.multiPathfind(mapPos, destinations);
-        for (destination in destinations)
-            if (destination.x == mapPos.x && destination.y == mapPos.y)
+        for (destination in destinations) {
+            if (destination.x == mapPos.x && destination.y == mapPos.y) {
                 onArrival();
+                return;
+            }
+        }
 
         if (path == null) return;
         if (path.length > 0) {
@@ -93,8 +96,7 @@ class Minion {
         return nearestBox;
     }
 
-    public function update(map: TileMap) {
-        tick++;
+    function updateHealth() {
         if (tick % 30 == 0) {
             switch (state) {
                 case Sleep: {};
@@ -106,7 +108,9 @@ class Minion {
                 return;
             }
         }
+    }
 
+    function performState(map: TileMap) {
         switch (state) {
             case Sleep: {}
             case Idle: {
@@ -180,5 +184,11 @@ class Minion {
                 task.progress(this);
             }
         }
+    }
+
+    public function update(map: TileMap) {
+        tick++;
+        updateHealth();
+        performState(map);
     }
 }

@@ -10,6 +10,7 @@ class Main {
 
 	public function new() {
 		MouseState.setup();
+		KeyboardState.setup();
 		activeState = new PlayState();
 	}
 
