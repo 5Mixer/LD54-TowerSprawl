@@ -107,7 +107,7 @@ class PlayState extends State {
 
         for (minion in minions) minion.update(map);
         minions = minions.filter(minion -> minion.alive);
-        for (item in map.getItems()) item.update();
+        for (item in map.items) item.update();
 
         if (MouseState.isMiddleButtonDown) {
             Camera.position.x = Std.int(Camera.position.x - (MouseState.delta.x/2));
@@ -122,7 +122,7 @@ class PlayState extends State {
         for (room in map.placedRooms) {
             freeTasks = freeTasks.concat(room.getTasks());
         }
-        for (item in map.getItems()) {
+        for (item in map.items) {
             freeTasks = freeTasks.concat(item.getTasks());
         }
 

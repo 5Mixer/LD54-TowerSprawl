@@ -74,7 +74,7 @@ class Minion {
     }
 
     function nearestBox(map: TileMap, filter: Box -> Bool): Box {
-        var boxes = map.getItems()
+        var boxes = map.items
             .filter(item -> item.item.type == ItemType.Box)
             .map(item -> cast(item, Box))
             .filter(box -> filter(box));
@@ -172,10 +172,6 @@ class Minion {
                 }
             }
             case CompletingTask: {
-                // if (task.item.getPathFindTarget().x != mapPos.x || task.item.getPathFindTarget().y != mapPos.y) {
-                //     state = Walking(CompletingTask);
-                //     return;
-                // }
                 if (task == null || task.isComplete) {
                     state = Idle;
                     task = null;

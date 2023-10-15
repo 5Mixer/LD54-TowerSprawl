@@ -91,7 +91,7 @@ class PlacementBar {
                                 case Machine: new Machine(item, mapPos);
                                 default: new PlacedItem(item, mapPos);
                             }
-                            map.addItem(placedItem);
+                            map.items.push(placedItem);
                             onPlacementCallback(pickedUpItem.contents, mapPos);
                         }
                     }

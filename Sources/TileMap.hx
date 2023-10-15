@@ -10,7 +10,7 @@ using VectorExtension;
 
 class TileMap {
     var tiles = new Array<MapTile>();
-    var items = new Array<PlacedItem>();
+    public var items = new Array<PlacedItem>();
     public var placedRooms = new Array<PlacedRoom>();
     var width = 300;
     var height = 1000;
@@ -52,14 +52,6 @@ class TileMap {
             return tile.real ? tile.tile : Air;
         }
         return tile.tile;
-    }
-
-    public function addItem(item: PlacedItem) {
-        items.push(item);
-    }
-
-    public function getItems() {
-        return items;
     }
 
     public function multiPathfind(start: Vector2i, finishPositions: Array<Vector2i>) {
