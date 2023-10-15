@@ -10,7 +10,6 @@ import kha.math.FastMatrix4;
 import kha.math.Vector2i;
 import kha.Assets;
 import kha.Framebuffer;
-import kha.input.KeyCode;
 using GraphicsExtension;
 
 class PlayState extends State {
@@ -110,21 +109,9 @@ class PlayState extends State {
         minions = minions.filter(minion -> minion.alive);
         for (item in map.items) item.update();
 
-        moveCamera();
+        Camera.panWithInput();
 
         tick++;
-    }
-
-    function moveCamera() {
-        if (MouseState.isMiddleButtonDown) {
-            Camera.position.x -= MouseState.delta.x / 2;
-            Camera.position.y -= MouseState.delta.y / 2;
-        }
-
-        if (KeyboardState.pressedButtons.contains(KeyCode.Left)) Camera.position.x -= Camera.panSpeed;
-        if (KeyboardState.pressedButtons.contains(KeyCode.Right)) Camera.position.x += Camera.panSpeed;
-        if (KeyboardState.pressedButtons.contains(KeyCode.Up)) Camera.position.y -= Camera.panSpeed;
-        if (KeyboardState.pressedButtons.contains(KeyCode.Down)) Camera.position.y += Camera.panSpeed;
     }
 
     function assignMinionTasks() {
